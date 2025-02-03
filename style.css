@@ -1,0 +1,1001 @@
+/* COMMON CSS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+/* VARIABLER */
+:root {
+    /* COLORS */
+    /* Common color variables */
+    --primary-color-10: rgb(230, 238, 239);
+    --primary-color-20: rgb(204, 220, 223);
+    --primary-color-30: rgb(179, 203, 207);
+    --primary-color-40: rgb(153, 186, 191);
+    --primary-color-50: rgb(128, 169, 176);
+    --primary-color-60: rgb(102, 151, 160);
+    --primary-color-70: rgb(77, 134, 144);
+    --primary-color-80: rgb(51, 117, 128);
+    --primary-color-90: rgb(25, 99, 112);
+    --primary-color: rgb(0, 82, 96);
+    --secondary-color-10: rgb(233, 244, 239);
+    --secondary-color-20: rgb(210, 234, 224);
+    --secondary-color-30: rgb(188, 223, 208);
+    --secondary-color-40: rgb(165, 213, 192);
+    --secondary-color-50: rgb(143, 202, 177);
+    --secondary-color-60: rgb(121, 191, 161);
+    --secondary-color-70: rgb(98, 181, 145);
+    --secondary-color-80: rgb(76, 170, 129);
+    --secondary-color-90: rgb(53, 160, 114);
+    --secondary-color: rgb(31, 149, 98);
+    --tertiary-color-10: rgb(230, 245, 249);
+    --tertiary-color-20: rgb(204, 235, 243);
+    --tertiary-color-30: rgb(179, 225, 237);
+    --tertiary-color-40: rgb(153, 215, 231);
+    --tertiary-color-50: rgb(128, 205, 225);
+    --tertiary-color-60: rgb(102, 195, 218);
+    --tertiary-color-70: rgb(77, 185, 212);
+    --tertiary-color-80: rgb(51, 175, 206);
+    --tertiary-color-90: rgb(25, 165, 200);
+    --tertiary-color: rgb(0, 155, 194);
+
+    /* COLORS from the new CSS */
+    --vann-10: #E5EEEF;
+    --vann-20: #CCDCDF;
+    --vann-30: #B2CBCF;
+    --vann-40: #99BABF;
+    --vann-50: #80A8AF;
+    --vann-60: #6697A0;
+    --vann-70: #4C8690;
+    --vann-80: #337580;
+    --vann-90: #196370;
+    --vann: #005260;
+
+    /* SPECIFIC COLORS */
+    --primary-background-color: rgb(242, 246, 247);
+    --font-color: rgb(0, 0, 0);
+    --font-color-inverted: rgb(255, 255, 255);
+    --link-color: rgb(0, 82, 96);
+    --link-color-hover: rgb(0, 0, 0);
+    --error-color: rgb(183, 23, 61);
+    --error-background-color: rgb(241, 209, 216);
+    --warning-color: rgb(188, 119, 38);
+    --warning-background-color: rgb(242, 228, 212);
+    --success-color: rgb(47, 117, 66);
+    --success-background-color: rgb(213, 227, 217);
+
+    /* SIZES */
+    --font-size-root: 1rem;
+    --font-size-extra-large: 2rem;
+    --font-size-large: 1.5rem;
+    --font-size-small: 0.9rem;
+    --font-size-extra-small: 0.8rem;
+    --spacing: 1rem;
+    --spacing-extra-small: 0.25rem;
+    --spacing-small: 0.5rem;
+    --spacing-large: 1.5rem;
+    --spacing-extra-large: 2rem;
+}
+
+/* HTML Elements styling */
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
+    height: 100%;
+    line-height: 1.4;
+    font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    padding: 0;
+    margin: 0;
+}
+
+/* Input and buttons */
+input, select, textarea, button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+a {
+    color: var(--vann);
+}
+
+a:hover {
+    color: #000;
+}
+
+button {
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    background-color: var(--himmel-10);
+    border: 2px solid var(--himmel-30);
+    border-radius: 12px;
+    color: var(--font-color);  /* Ensures text inside buttons have proper color */
+
+}
+
+button:hover {
+    background-color: var(--himmel-30);
+}
+
+button.big {
+    padding: 16px;
+    font-size: 1.1em;
+}
+
+button.link {
+    padding: 0px;
+    background-color: inherit;
+    border: none;
+    text-decoration: underline;
+    color: var(--vann);
+}
+
+button.link span {
+    font-size: 18px;
+    padding: 0px 5px;
+    vertical-align: middle !important;
+}
+
+button.link:hover {
+    color: #000;
+}
+
+dialog {
+    width: 80vw;
+    height: 80vh;
+    margin: auto;
+    border: none;
+    padding: 32px;
+}
+dialog::backdrop {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7));
+    animation: fade-in 1s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-background-color);
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    font-size: var(--font-size-root);
+    color: var(--primary-color);
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    border: 2px solid var(--himmel-30);
+    border-radius: 12px;
+    background-color: var(--himmel-10);
+}
+
+.sidebar ul li a:hover {
+    background-color: var(--primary-color-20);
+    color: var(--primary-color);
+}
+
+/* Adjust main and header to accommodate sidebar */
+header, main {
+    margin-left: 220px; /* Adjust according to the sidebar width */
+}
+
+/* FOCUS */
+:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+.focus-within:focus-within {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.inward-focus-within:focus-within {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+/* Links */
+a, a:visited {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+a:hover {
+    color: var(--link-color-hover);
+}
+a span.material-symbols-outlined {
+    text-decoration: none;
+    vertical-align: text-bottom;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5 {
+    margin-top: var(--spacing);
+    margin-bottom: var(--spacing-small);
+}
+
+/* Buttons (and link that looks like button for button hrefs) */
+button, a.button {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    background-color: var(--primary-background-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 2rem;
+    min-height: 3rem;
+    padding: 0 var(--spacing-large);
+    cursor: pointer;
+    text-decoration: none; /* Remove from link button (a) */
+    box-sizing: border-box; /* To make link button the same size as regular button */
+}
+
+button:hover, a.button:hover {
+    background-color: var(--primary-color-20);
+}
+
+button:active, a.button:active {
+    background-color: var(--primary-color-30);
+}
+
+button.filled, a.button.filled, .button-input > button {
+    background-color: var(--primary-color);
+    color: var(--font-color-inverted);
+}
+
+button.filled:hover, a.button.filled:hover, .button-input > button:hover {
+    background-color: var(--primary-color-80);
+}
+
+button.filled:active, a.button.filled:active, .button-input button:active {
+    background-color: var(--primary-color-90);
+}
+
+button.squared {
+    border-radius: 0.4rem;
+}
+
+button:disabled, button:disabled:hover {
+    background-color: var(--primary-background-color);
+    cursor: not-allowed;
+    color: grey;
+}
+
+/* Style for collapsible sections */
+.collapsible {
+    display: none;
+}
+
+/* Input elements */
+input {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    min-height: 3.5rem;
+    padding: 0 var(--spacing);
+    background-color: var(--primary-background-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 0.4rem;
+}
+
+textarea, select {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    padding: var(--spacing-small);
+    width: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 0.4rem;
+    background-color: var(--primary-background-color);
+}
+
+textarea:hover, input:hover, select:hover {
+    background-color: var(--primary-color-10);
+}
+
+textarea:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+input[type="number"], input[type="text"], select {
+    min-height: 3.5rem;
+}
+textarea:focus-visible, input:focus-visible, select:focus-visible,
+#kateter-text:focus-visible,
+[contenteditable="true"]:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+textarea, select {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    padding: var(--spacing-small);
+    width: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 0.4rem;
+    background-color: var(--primary-background-color);
+    transition: background-color 0.3s ease;
+}
+
+textarea:hover, input:hover, select:hover {
+    background-color: var(--primary-color-10);
+}
+
+textarea:focus-visible, input:focus-visible, select:focus-visible,
+#kateter-text:focus-visible,
+[contenteditable="true"]:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+/* Layout Styling for Form Sections */
+section {
+    margin: var(--spacing-large) 0;
+    padding: var(--spacing);
+    background-color: var(--secondary-color-10);
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.4rem;
+}
+
+section h2 {
+    margin-bottom: var(--spacing);
+}
+
+/* Styling for Seating Chart */
+#seating-chart {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Columns remain fixed */
+    grid-auto-rows: auto; /* Allow the rows to adjust dynamically */
+    gap: var(--spacing);
+    justify-items: center;
+    border: 1px solid black;
+}
+
+.seating-cell {
+    border: 1px dashed grey;
+    min-height: 50px;
+    min-width: 70px;
+}
+
+.student-group {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: var(--spacing-small);
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: var(--spacing-small);
+    border-radius: 0.4rem;
+    background-color: #f8f8f8;
+    align-items: center;
+    position: relative;
+}
+
+/* Removing margin from group inside cell */
+.seating-cell .student-group {
+    margin: 0;
+}
+
+.student {
+    background-color: var(--primary-color-20);
+    padding: var(--spacing-small);
+    border-radius: 0.4rem;
+    border: 1px solid var(--primary-color);
+    min-width: 70px;
+    text-align: center;
+    margin: var(--spacing-small) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+}
+
+/* Styling for the teacher's desk */
+#teacher-desk {
+   border: 2px solid black;
+    padding: var(--spacing-small);
+    border-radius: 0.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background-color: var(--secondary-color-30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing); /* Added for spacing between items */
+}
+
+#teacher-desk-input {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    background: none;
+}
+
+#kateter-cell {
+    border: 2px solid black;
+    min-height: 50px;
+    min-width: 70px;
+    text-align: center;
+    background-color: var(--secondary-color-30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#kateter-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    width: 100%
+}
+
+.kateter-middle {
+    grid-column: 3; /* Adjust this to place kateter at the center based on grid size */
+    grid-row: 1;
+}
+
+/* Styling for Gruppe Header */
+.group-header {
+    font-weight: bold;
+    margin-bottom: var(--spacing-small);
+}
+
+/* COMMON CSS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+/* VARIABLER */
+:root {
+    /* COLORS */
+    /* Common color variables */
+    --primary-color-10: rgb(230, 238, 239);
+    --primary-color-20: rgb(204, 220, 223);
+    --primary-color-30: rgb(179, 203, 207);
+    --primary-color-40: rgb(153, 186, 191);
+    --primary-color-50: rgb(128, 169, 176);
+    --primary-color-60: rgb(102, 151, 160);
+    --primary-color-70: rgb(77, 134, 144);
+    --primary-color-80: rgb(51, 117, 128);
+    --primary-color-90: rgb(25, 99, 112);
+    --primary-color: rgb(0, 82, 96);
+    --secondary-color-10: rgb(233, 244, 239);
+    --secondary-color-20: rgb(210, 234, 224);
+    --secondary-color-30: rgb(188, 223, 208);
+    --secondary-color-40: rgb(165, 213, 192);
+    --secondary-color-50: rgb(143, 202, 177);
+    --secondary-color-60: rgb(121, 191, 161);
+    --secondary-color-70: rgb(98, 181, 145);
+    --secondary-color-80: rgb(76, 170, 129);
+    --secondary-color-90: rgb(53, 160, 114);
+    --secondary-color: rgb(31, 149, 98);
+    --tertiary-color-10: rgb(230, 245, 249);
+    --tertiary-color-20: rgb(204, 235, 243);
+    --tertiary-color-30: rgb(179, 225, 237);
+    --tertiary-color-40: rgb(153, 215, 231);
+    --tertiary-color-50: rgb(128, 205, 225);
+    --tertiary-color-60: rgb(102, 195, 218);
+    --tertiary-color-70: rgb(77, 185, 212);
+    --tertiary-color-80: rgb(51, 175, 206);
+    --tertiary-color-90: rgb(25, 165, 200);
+    --tertiary-color: rgb(0, 155, 194);
+
+    /* COLORS from the new CSS */
+    --vann-10: #E5EEEF;
+    --vann-20: #CCDCDF;
+    --vann-30: #B2CBCF;
+    --vann-40: #99BABF;
+    --vann-50: #80A8AF;
+    --vann-60: #6697A0;
+    --vann-70: #4C8690;
+    --vann-80: #337580;
+    --vann-90: #196370;
+    --vann: #005260;
+
+    /* SPECIFIC COLORS */
+    --primary-background-color: rgb(242, 246, 247);
+    --font-color: rgb(0, 0, 0);
+    --font-color-inverted: rgb(255, 255, 255);
+    --link-color: rgb(0, 82, 96);
+    --link-color-hover: rgb(0, 0, 0);
+    --error-color: rgb(183, 23, 61);
+    --error-background-color: rgb(241, 209, 216);
+    --warning-color: rgb(188, 119, 38);
+    --warning-background-color: rgb(242, 228, 212);
+    --success-color: rgb(47, 117, 66);
+    --success-background-color: rgb(213, 227, 217);
+
+    /* SIZES */
+    --font-size-root: 1rem;
+    --font-size-extra-large: 2rem;
+    --font-size-large: 1.5rem;
+    --font-size-small: 0.9rem;
+    --font-size-extra-small: 0.8rem;
+    --spacing: 1rem;
+    --spacing-extra-small: 0.25rem;
+    --spacing-small: 0.5rem;
+    --spacing-large: 1.5rem;
+    --spacing-extra-large: 2rem;
+}
+
+/* HTML Elements styling */
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
+    height: 100%;
+    line-height: 1.4;
+    font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    padding: 0;
+    margin: 0;
+}
+
+/* Input and buttons */
+input, select, textarea, button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+a {
+    color: var(--vann);
+}
+
+a:hover {
+    color: #000;
+}
+
+button {
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    background-color: var(--himmel-10);
+    border: 2px solid var(--himmel-30);
+    border-radius: 12px;
+}
+
+button:hover {
+    background-color: var(--himmel-30);
+}
+
+button.big {
+    padding: 16px;
+    font-size: 1.1em;
+}
+
+button.link {
+    padding: 0px;
+    background-color: inherit;
+    border: none;
+    text-decoration: underline;
+    color: var(--vann);
+}
+
+button.link span {
+    font-size: 18px;
+    padding: 0px 5px;
+    vertical-align: middle !important;
+}
+
+button.link:hover {
+    color: #000;
+}
+
+dialog {
+    width: 80vw;
+    height: 80vh;
+    margin: auto;
+    border: none;
+    padding: 32px;
+}
+dialog::backdrop {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7));
+    animation: fade-in 1s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-background-color);
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    font-size: var(--font-size-root);
+    color: var(--primary-color);
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    border: 2px solid var(--himmel-30);
+    border-radius: 12px;
+    background-color: var(--himmel-10);
+}
+
+.sidebar ul li a:hover {
+    background-color: var(--primary-color-20);
+    color: var(--primary-color);
+}
+
+/* Adjust main and header to accommodate sidebar */
+header, main {
+    margin-left: 220px; /* Adjust according to the sidebar width */
+}
+
+/* FOCUS */
+:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+.focus-within:focus-within {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.inward-focus-within:focus-within {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+/* Links */
+a, a:visited {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+a:hover {
+    color: var(--link-color-hover);
+}
+a span.material-symbols-outlined {
+    text-decoration: none;
+    vertical-align: text-bottom;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5 {
+    margin-top: var(--spacing);
+    margin-bottom: var(--spacing-small);
+}
+
+/* Buttons (and link that looks like button for button hrefs) */
+button, a.button {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    background-color: var(--primary-background-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 2rem;
+    min-height: 3rem;
+    padding: 0 var(--spacing-large);
+    cursor: pointer;
+    text-decoration: none; /* Remove from link button (a) */
+    box-sizing: border-box; /* To make link button the same size as regular button */
+}
+
+button:hover, a.button:hover {
+    background-color: var(--primary-color-20);
+}
+
+button:active, a.button:active {
+    background-color: var(--primary-color-30);
+}
+
+button.filled, a.button.filled, .button-input > button {
+    background-color: var(--primary-color);
+    color: var(--font-color-inverted);
+}
+
+button.filled:hover, a.button.filled:hover, .button-input > button:hover {
+    background-color: var(--primary-color-80);
+}
+
+button.filled:active, a.button.filled:active, .button-input button:active {
+    background-color: var(--primary-color-90);
+}
+
+button.squared {
+    border-radius: 0.4rem;
+}
+
+button:disabled, button:disabled:hover {
+    background-color: var(--primary-background-color);
+    cursor: not-allowed;
+    color: grey;
+}
+
+/* Style for collapsible sections */
+.collapsible {
+    display: none;
+}
+
+/* Input elements */
+input {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    min-height: 3.5rem;
+    padding: 0 var(--spacing);
+    background-color: var(--primary-background-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 0.4rem;
+}
+
+textarea, select {
+    font-family: inherit;
+    font-size: var(--font-size-root);
+    padding: var(--spacing-small);
+    width: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 0.4rem;
+    background-color: var(--primary-background-color);
+}
+
+textarea:hover, input:hover, select:hover {
+    background-color: var(--primary-color-10);
+}
+
+textarea:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 4px solid var(--primary-color);
+    outline-offset: -4px;
+}
+
+input[type="number"], input[type="text"], select {
+    min-height: 3.5rem;
+}
+
+/* Layout Styling for Form Sections */
+section {
+    margin: var(--spacing-large) 0;
+    padding: var(--spacing);
+    background-color: var(--secondary-color-10);
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.4rem;
+}
+
+section h2 {
+    margin-bottom: var(--spacing);
+}
+
+/* Styling for Seating Chart */
+#seating-chart {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, auto);
+    gap: var(--spacing);
+    justify-items: center;
+    border: 1px solid black;
+}
+
+.seating-cell {
+    border: 1px dashed grey;
+    min-height: 50px;
+    min-width: 70px;
+}
+
+.student-group {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: var(--spacing-small);
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: var(--spacing-small);
+    border-radius: 0.4rem;
+    background-color: #f8f8f8;
+    align-items: center;
+    position: relative;
+}
+
+/* Removing margin from group inside cell */
+.seating-cell .student-group {
+    margin: 0;
+}
+
+.student {
+    background-color: var(--primary-color-20);
+    padding: var(--spacing-small);
+    border-radius: 0.4rem;
+    border: 1px solid var(--primary-color);
+    min-width: 70px;
+    text-align: center;
+    margin: var(--spacing-small) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+}
+
+/* Styling for the teacher's desk */
+#teacher-desk {
+    border: 2px solid black;
+    padding: var(--spacing-small);
+    border-radius: 0.4rem;
+    margin-bottom: var(--spacing-large);
+    background-color: var(--secondary-color-30);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+#teacher-desk strong {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.editable-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--spacing-small);
+    flex-grow: 1; /* Ensures container spans full width to allow content alignment */
+
+}
+
+h2#editable-title,
+h3#editable-room-number {
+    text-align: left; /* Force left alignment */
+    margin: 0;
+
+}
+
+/* Center contents inside group header */
+.group-header, .student {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+}
+
+.dragging {
+    opacity: 0.5;
+}
+
+/* Muliggjør redigering av gruppe- og elevnavn med doble klikk */
+.group-header[contenteditable="true"],
+.student[contenteditable="true"] {
+    border: 2px dashed grey;
+    outline: none;
+}
+
+/* Styling for delete buttons */
+.delete-button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: var(--error-color);
+    font-size: var(--font-size-small);
+    padding: 0;
+}
+
+/* CSS */
+.button-group {
+    display: flex;
+    gap: var(--spacing-small);
+    flex-wrap: wrap;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    section {
+        padding: var(--spacing-small);
+    }
+
+    .button-group {
+        flex-direction: column;
+        display: flex;
+        gap: var(--spacing-small);
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    textarea, select, input {
+        font-size: var(--font-size-small);
+    }
+
+    .student {
+        font-size: var(--font-size-small);
+        padding: var(--spacing-extra-small);
+    }
+
+    #seating-chart {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .button-group {
+        flex-direction: column;
+    }
+
+    button, a.button {
+        font-size: var(--font-size-small);
+        padding: var(--spacing);
+    }
+
+    .student {
+        font-size: var(--font-size-extra-small);
+        padding: var(--spacing-extra-small);
+    }
+
+    #seating-chart {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .seating-cell {
+        min-height: 40px;
+        min-width: 50px;
+    }
+}
+.toggle-buttons {
+    display: flex;
+    gap: var(--spacing-small);
+    margin-left: auto;
+}

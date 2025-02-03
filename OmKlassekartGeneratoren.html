@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om Klassekartgeneratoren</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="menu-placeholder"></div>
+    <header>
+        <h1>Om Klassekartgeneratoren</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Hva er Klassekartgeneratoren?</h2>
+            <p>Klassekartgeneratoren er et verktøy designet for lærere for å enkelt og effektivt kunne plassere elever i klassekart. Verktøyet gjør det mulig å registrere elever, generere sitteskart og foreta nødvendige justeringer basert på ulike preferanser som antall elever per gruppe og spesifikke krav som hvem som skal sitte foran, bak, sammen eller hver for seg.</p>
+        </section>
+
+        <section>
+            <h2>Hvorfor trenger vi en Klassekartgenerator?</h2>
+            <p>Å ha et bevist forhold til gruppering og sammensetting av elevene i en klasse er en viktig oppgave for oss lærere. Kassekartgeneratoren er et verktøy som kan hjelpe oss med den oppgaven.</p>
+        </section>
+
+        <section>
+            <h2>Hvordan komme i gang</h2>
+            <ol>
+                <li>Fyll inn navnene på elevene i tekstfeltet på startsiden, en elev per linje.</li>
+                <li>Velg antall elever du vil ha i hver gruppe fra nedtrekksmenyen.</li>
+                <li>Klikk på "Generer" knappen for å automatisk generere sitteskartet.</li>
+                <li>Du kan også legge til ekstra grupper eller individuelle elever ved å bruke "Legg til gruppe" og "Legg til elev" knappene.</li>
+                <li>For mer avanserte krav, kan du spesifisere elever som skal sitte foran, bak, sammen eller hver for seg under "Avanserte krav" seksjonen.</li>
+                <li>Dersom du ønsker å eksportere sitteskartet, kan du bruke "Eksporter som PDF" eller "Eksporter som Excel" knappene under "Vis/skjul Eksport".</li>
+                <li>Du kan også dele sitteskartet ved å trykke på "Del klassekart" under "Vis/skjul Del klassekart".</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Eksempeldata</h2>
+            <p>Hvis du vil se hvordan det fungerer, kan du fylle inn eksempelelever ved å klikke på "Fyll inn eksempelelever" knappen på startsiden. Dette vil automatisk fylle inn noen eksempelelever slik at du raskt kan generere et sitteskart.</p>
+        </section>
+
+        <section>
+            <h2>Klassekartgenerator fungerer ikke godt nok, kan det gjøres noe med?</h2>
+            <p>Denne løsningen er utviklet for å gi grunnleggende funksjonalitet og er ikke ment å konkurrere med tilsvarende løsninger i markedet. Dersom du savner funksjonalitet eller oppdager feil og utfordringer med bruk av løsningen kan du melde inn dette via Github, løsinngen har ingen kontinuerlig utviklingslan. Koden til løsningen ligger åpent tilgjengelig og en med IT-utviklerkompetanse kan selv utvikle ny funksjonalitet</p>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-placeholder').innerHTML = data;
+                });
+        });
+    </script>
+</body>
+</html>

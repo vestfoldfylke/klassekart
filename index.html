@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="no-NB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassekartgenerator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="menu-placeholder" role="navigation" aria-label="Main navigation"></div>
+
+    <header role="banner">
+        <h1>Klassekartgenerator</h1>
+    </header>
+    <main role="main">
+        <form id="student-form" aria-labelledby="student-form-heading">
+            <h2 id="student-form-heading">Registrer elevene</h2>
+            <label for="student-names">Registrer elevene:</label>
+            <textarea id="student-names" rows="5" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
+            <button id="fill-example-students" class="button" type="button">Fyll inn eksempelelever</button>
+        </form>
+        
+        <section id="generate-seating" aria-labelledby="generate-seating-heading">
+            <h2 id="generate-seating-heading">Generer klassekart</h2>
+            <label for="seating-style">Velg antall elever pr gruppe:</label>
+            <select id="seating-style">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <div class="button-group">
+                <button id="generate-button" class="button" type="button">Generer</button>
+                <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
+                <button id="add-student-button" class="button" type="button">Legg til elev</button>
+                <button id="add-row-button" class="button" type="button">Legg til boks</button>
+                <button id="remove-row-button" class="button" type="button">Slett boks</button>
+                <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
+                <a href="#advanced-requirements" id="toggle-advanced-requirements" class="button" aria-expanded="false" aria-controls="advanced-requirements">Avanserte krav</a>
+            </div>
+        </section>
+
+        <section id="advanced-requirements" class="collapsible" aria-labelledby="advanced-requirements-heading" aria-hidden="true">
+            <h2 id="advanced-requirements-heading">Avanserte krav</h2>
+            <label for="front-row-students">Elever som skal sitte foran:</label>
+            <textarea id="front-row-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
+            <label for="back-row-students">Elever som skal sitte bak:</label>
+            <textarea id="back-row-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
+            <label for="together-students">Elever som skal sitte sammen:</label>
+            <textarea id="together-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
+            <label for="apart-students">Elever som ikke skal sitte sammen:</label>
+            <textarea id="apart-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
+        </section>
+
+        <div class="editable-container">
+            <h2 id="editable-title" contenteditable="true" role="textbox" aria-multiline="true">Klassekart</h2>
+            <h3 id="editable-room-number" contenteditable="true" role="textbox" aria-multiline="true">Romnummer</h3>
+        </div>
+
+        <section id="seating-chart" aria-label="Seating chart">
+            <div id="kateter-cell" class="seating-cell" draggable="true">
+                <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
+            </div>
+            <!-- Seating chart grid will be generated here -->
+        </section>
+    </main>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-placeholder').innerHTML = data;
+                });
+        });
+    </script>
+</body>
+</html>
