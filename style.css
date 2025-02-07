@@ -650,3 +650,10 @@ label[for="sit-two-by-two"] {
 #sit-two-by-two {
     transform: scale(1.2); /* Adjust the scale to match the text size */
 }
+
+#settings-button {
+    display: none;
+}
+#export-pdf {
+    display: none;
+}
