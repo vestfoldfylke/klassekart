@@ -76,10 +76,26 @@
 
         <section id="export-section" aria-labelledby="export-heading">
             <h2 id="export-heading">Steg 3</h2>
-            <h4>Eksporter klassekartet</h4>
+            <h4>Se klassekartet under</h4>
             <div class="button-group">
                 <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
             </div>
+        </section>
+
+        <section id="settings-section" class="collapsible" aria-labelledby="settings-heading" aria-hidden="true">
+            <h2 id="settings-heading">Bygg dit eget klasserom</h2>
+            <div class="button-group">
+                <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
+                <button id="add-student-button" class="button" type="button">Legg til elev</button>
+                <button id="add-row-button" class="button" type="button">Legg til boks</button>
+                <button id="remove-row-button" class="button" type="button">Slett boks</button>
+            </div>
+            <br>
+            <label for="num-rows">Antall rader:</label>
+            <input type="number" id="num-rows" min="1" value="3">
+            <label for="num-cols">Antall kolonner:</label>
+            <input type="number" id="num-cols" min="1" value="3">
+            <button id="apply-settings" class="button" type="button">Bruk</button>
         </section>
 
         <div class="editable-container">
