@@ -3,47 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klassekartgenerator</title>
+    <title>Klassekart</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="menu-placeholder" role="navigation" aria-label="Main navigation"></div>
+    <button id="toggle-sidebar" class="button" type="button">☰</button>
+    <div id="menu-placeholder" role="navigation" aria-label="Main navigation" class="sidebar"></div>
 
     <header role="banner">
-        <h1>Klassekartgenerator</h1>
+        <h1>Klassekart</h1>
     </header>
     <main role="main">
         <form id="student-form" aria-labelledby="student-form-heading">
-            <h2 id="student-form-heading">Registrer elevene</h2>
-            <label for="student-names">Registrer elevene:</label>
-            <textarea id="student-names" rows="5" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
-            <button id="fill-example-students" class="button" type="button">Fyll inn eksempelelever</button>
+            <h2 id="student-form-heading">Steg 1</h2>
+            <label for="student-names"><h4>Skriv navnene til elevene:</h4></label>
+            <textarea id="student-names" rows="5" placeholder="Skriv inn fornavnene på elevene, én per linje"></textarea>
+            <div class="button-group">
+                <button id="fetch-students" class="button" type="button">Hent elever</button>
+                <button id="fill-example-students" class="button" type="button">Fyll inn eksempelelever</button>
+                <button id="settings-button" class="button" type="button">Lag manuelt</button>
+                <input type="file" id="file-input" accept=".txt" style="display: none;">
+                <button id="reset-button" class="button" type="button">Nullstill klassekart</button>
+            </div>
+            <br>
         </form>
         
-        <section id="generate-seating" aria-labelledby="generate-seating-heading">
-            <h2 id="generate-seating-heading">Generer klassekart</h2>
-            <label for="seating-style">Velg antall elever pr gruppe:</label>
-            <select id="seating-style">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
+        <section id="settings-section" class="collapsible" aria-labelledby="settings-heading" aria-hidden="true">
+            <h2 id="settings-heading">Bygg dit eget klasserom</h2>
             <div class="button-group">
-                <button id="generate-button" class="button" type="button">Generer</button>
                 <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
                 <button id="add-student-button" class="button" type="button">Legg til elev</button>
                 <button id="add-row-button" class="button" type="button">Legg til boks</button>
                 <button id="remove-row-button" class="button" type="button">Slett boks</button>
-                <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
+            </div>
+            <br>
+            <label for="num-rows">Antall rader:</label>
+            <input type="number" id="num-rows" min="1" value="3">
+            <label for="num-cols">Antall kolonner:</label>
+            <input type="number" id="num-cols" min="1" value="3">
+            <button id="apply-settings" class="button" type="button">Bruk</button>
+        </section>
+
+        <section id="generate-seating" aria-labelledby="generate-seating-heading">
+            <h2 id="generate-seating-heading">Steg 2</h2>
+            <h4>Gjør tilpasninger og lag klassekart</h4>
+            <div class="button-group">
+                <button id="generate-button" class="button" type="button">Lag klassekart</button>
+                <button id="groups-button" class="button" type="button">Del elevene i grupper</button>
                 <a href="#advanced-requirements" id="toggle-advanced-requirements" class="button" aria-expanded="false" aria-controls="advanced-requirements">Avanserte krav</a>
             </div>
+            <br>
+            <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to?</label>
+        </section>
+
+        <section id="groups-section" class="collapsible" aria-labelledby="groups-heading" aria-hidden="true">
+            <h2 id="groups-heading">Grupper</h2>
+            <label for="seating-style">Velg antall elever pr gruppe:</label>
+            <input type="number" id="seating-style" min="1" value="1">
         </section>
 
         <section id="advanced-requirements" class="collapsible" aria-labelledby="advanced-requirements-heading" aria-hidden="true">
@@ -58,13 +74,27 @@
             <textarea id="apart-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
         </section>
 
+        <section id="export-section" aria-labelledby="export-heading">
+            <h2 id="export-heading">Steg 3</h2>
+            <h4>Eksporter klassekartet</h4>
+            <div class="button-group">
+                <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
+            </div>
+        </section>
+
         <div class="editable-container">
             <h2 id="editable-title" contenteditable="true" role="textbox" aria-multiline="true">Klassekart</h2>
             <h3 id="editable-room-number" contenteditable="true" role="textbox" aria-multiline="true">Romnummer</h3>
         </div>
 
         <section id="seating-chart" aria-label="Seating chart">
-            <div id="kateter-cell" class="seating-cell" draggable="true">
+            <div class="seating-cell">
+                <div class="student-group">Gruppe 1</div>
+            </div>
+            <div class="seating-cell">
+                <div class="student-group">Gruppe 2</div>
+            </div>
+            <div id="kateter-cell" class="seating-cell kateter-row" draggable="true">
                 <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
             </div>
             <!-- Seating chart grid will be generated here -->
@@ -79,6 +109,23 @@
                 .then(data => {
                     document.getElementById('menu-placeholder').innerHTML = data;
                 });
+
+            const toggleSidebarButton = document.getElementById('toggle-sidebar');
+            const sidebar = document.getElementById('menu-placeholder');
+            toggleSidebarButton.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                document.querySelector('header').classList.toggle('full-width');
+                document.querySelector('main').classList.toggle('full-width');
+            });
+
+            const groupsButton = document.getElementById('groups-button');
+            const groupsSection = document.getElementById('groups-section');
+
+            groupsButton.addEventListener('click', () => {
+                const isCollapsed = groupsSection.classList.contains('collapsible');
+                groupsSection.classList.toggle('collapsible');
+                groupsSection.setAttribute('aria-hidden', isCollapsed ? 'false' : 'true');
+            });
         });
     </script>
 </body>
