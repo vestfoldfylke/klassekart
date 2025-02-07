@@ -27,11 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const applySettingsButton = document.getElementById('apply-settings');
     const numRowsInput = document.getElementById('num-rows');
     const numColsInput = document.getElementById('num-cols');
+    const exportSection = document.getElementById('export-section');
 
     settingsButton.addEventListener('click', () => {
         const isCollapsed = settingsSection.classList.contains('collapsible');
         settingsSection.classList.toggle('collapsible');
         settingsSection.setAttribute('aria-hidden', isCollapsed ? 'false' : 'true');
+        exportSection.insertAdjacentElement('afterend', settingsSection); // Move settings section under export section
     });
 
     applySettingsButton.addEventListener('click', () => {
