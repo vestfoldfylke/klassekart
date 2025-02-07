@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const studentTextarea = document.getElementById('student-names');
     const generateButton = document.getElementById('generate-button');
     const fillExampleButton = document.getElementById('fill-example-students');
-    const seatingStyleDropdown = document.getElementById('seating-style');
+    const seatingStyleInput = document.getElementById('seating-style');
     const seatingChartContainer = document.getElementById('seating-chart');
     const exportPdfButton = document.getElementById('export-pdf');
     const editableTitle = document.getElementById('editable-title');
@@ -13,13 +13,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeRowButton = document.getElementById('remove-row-button');
     const toggleAdvancedRequirementsButton = document.getElementById('toggle-advanced-requirements');
     const advancedRequirementsSection = document.getElementById('advanced-requirements');
+    const resetButton = document.getElementById('reset-button');
     let students = JSON.parse(localStorage.getItem('students')) || [];
     let groupCounter = 1;
     let studentCounter = students.length;
-    const totalCols = 5; // Fixed number of columns
-    let totalRows = 5; // Initial number of rows
+    let totalCols = 3; // Default number of columns
+    let totalRows = 4; // Default number of rows including the kateter row
     let kateterRow = totalRows; // Place the kateter at the bottom row
-    const kateterColumn = 3; // Middle column
+    const kateterColumn = 2; // Middle column for 3x3 grid
+
+    const settingsButton = document.getElementById('settings-button');
+    const settingsSection = document.getElementById('settings-section');
+    const applySettingsButton = document.getElementById('apply-settings');
+    const numRowsInput = document.getElementById('num-rows');
+    const numColsInput = document.getElementById('num-cols');
+
+    settingsButton.addEventListener('click', () => {
+        const isCollapsed = settingsSection.classList.contains('collapsible');
+        settingsSection.classList.toggle('collapsible');
+        settingsSection.setAttribute('aria-hidden', isCollapsed ? 'false' : 'true');
+    });
+
+    applySettingsButton.addEventListener('click', () => {
+        const currentGridData = saveCurrentGridData(); // Save current grid data
+        totalRows = parseInt(numRowsInput.value);
+        totalCols = parseInt(numColsInput.value);
+        kateterRow = totalRows; // Update kateterRow to the new bottom row
+        renderEmptyGrid();
+        loadGridData(currentGridData); // Load saved grid data
+        saveCurrentGrid(); // Save the updated grid
+    });
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -90,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function createGroup(groupNumber) {
+    function createGroup(groupNumber, students = []) {
         const group = document.createElement('div');
         group.className = 'student-group';
         group.id = `group-${groupNumber}`;
@@ -111,6 +134,20 @@ document.addEventListener('DOMContentLoaded', () => {
         group.addEventListener('dragstart', handleDragStart);
         group.addEventListener('dragover', handleDragOver);
         group.addEventListener('drop', handleDrop);
+
+        const studentContainer = document.createElement('div');
+        studentContainer.className = 'student-container';
+        group.appendChild(studentContainer);
+
+        students.forEach((student) => {
+            const studentDiv = createStudent(student);
+            studentContainer.appendChild(studentDiv);
+        });
+
+        // Adjust group size based on the number of students
+        const baseHeight = 100; // Base height for the group
+        const studentHeight = 50; // Height for each student
+        group.style.height = `${baseHeight + students.length * studentHeight}px`;
 
         return group;
     }
@@ -177,11 +214,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function saveCurrentGridData() {
+        const gridData = [];
+        document.querySelectorAll('.seating-cell').forEach(cell => {
+            const cellData = { row: parseInt(cell.dataset.row), col: parseInt(cell.dataset.col), students: [] };
+            cell.querySelectorAll('.student, .student-group').forEach(element => {
+                if (element.classList.contains('student')) {
+                    cellData.students.push({ type: 'student', name: element.innerText });
+                } else {
+                    const group = { type: 'group', students: [] };
+                    element.querySelectorAll('.student').forEach(student => {
+                        group.students.push(student.innerText);
+                    });
+                    cellData.students.push(group);
+                }
+            });
+            gridData.push(cellData);
+        });
+        return gridData;
+    }
+
+    function loadGridData(gridData) {
+        gridData.forEach(cellData => {
+            const cell = document.querySelector(`.seating-cell[data-row='${cellData.row}'][data-col='${cellData.col}']`);
+            if (cell) {
+                // Clear existing elements in the cell
+                cell.innerHTML = '';
+                cellData.students.forEach(data => {
+                    if (data.type === 'student') {
+                        const studentDiv = createStudent(data.name);
+                        cell.appendChild(studentDiv);
+                    } else {
+                        const group = createGroup(groupCounter++);
+                        data.students.forEach(studentName => {
+                            const studentDiv = createStudent(studentName);
+                            group.appendChild(studentDiv);
+                        });
+                        cell.appendChild(group);
+                    }
+                });
+            }
+        });
+    }
+
     addGroupButton.addEventListener('click', () => {
-        const cell = Array.from(seatingChartContainer.querySelectorAll('.seating-cell')).find((cell) => cell.children.length === 0 && !(parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn));
-        if (cell) {
+        const firstEmptyCell = Array.from(seatingChartContainer.querySelectorAll('.seating-cell')).find(cell => cell.children.length === 0 && !(parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn));
+        if (firstEmptyCell) {
             const group = createGroup(groupCounter++);
-            cell.appendChild(group);
+            firstEmptyCell.appendChild(group);
             saveCurrentGrid();
         } else {
             alert('Ingen ledige plasseringer tilgjengelig.');
@@ -189,15 +269,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     addStudentButton.addEventListener('click', () => {
-        const firstGroup = seatingChartContainer.querySelector('.student-group');
-        if (seatingStyleDropdown.value === "1" || !firstGroup) {
+        const firstEmptyCell = Array.from(seatingChartContainer.querySelectorAll('.seating-cell')).find(cell => cell.children.length === 0 && !(parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn));
+        if (firstEmptyCell) {
             const studentDiv = createStudent('Ny elev');
-            seatingChartContainer.appendChild(studentDiv);
+            firstEmptyCell.appendChild(studentDiv);
+            saveCurrentGrid();
         } else {
-            const studentDiv = createStudent('Ny elev');
-            firstGroup.appendChild(studentDiv);
+            alert('Ingen ledige plasseringer tilgjengelig.');
         }
-        saveCurrentGrid();
     });
 
     fillExampleButton.addEventListener('click', () => {
@@ -262,14 +341,58 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleAdvancedRequirementsButton.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
     });
 
+    function createResizers() {
+        const seatingChart = document.getElementById('seating-chart');
+        const rows = totalRows;
+        const cols = totalCols;
+
+        for (let i = 1; i < rows; i++) {
+            const resizer = document.createElement('div');
+            resizer.className = 'grid-resizer horizontal';
+            resizer.style.top = `calc(${(i / rows) * 100}% - 2.5px)`;
+            seatingChart.appendChild(resizer);
+            resizer.addEventListener('mousedown', initDrag);
+        }
+
+        for (let i = 1; i < cols; i++) {
+            const resizer = document.createElement('div');
+            resizer.className = 'grid-resizer vertical';
+            resizer.style.left = `calc(${(i / cols) * 100}% - 2.5px)`;
+            seatingChart.appendChild(resizer);
+            resizer.addEventListener('mousedown', initDrag);
+        }
+    }
+
+    function initDrag(e) {
+        const resizer = e.target;
+        const isHorizontal = resizer.classList.contains('horizontal');
+        const startPos = isHorizontal ? e.clientY : e.clientX;
+        const startSize = isHorizontal ? seatingChartContainer.offsetHeight : seatingChartContainer.offsetWidth;
+
+        function doDrag(e) {
+            const newSize = startSize + (isHorizontal ? e.clientY - startPos : e.clientX - startPos);
+            seatingChartContainer.style[isHorizontal ? 'height' : 'width'] = `${newSize}px`;
+        }
+
+        function stopDrag() {
+            document.removeEventListener('mousemove', doDrag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        document.addEventListener('mousemove', doDrag);
+        document.addEventListener('mouseup', stopDrag);
+    }
+
     function renderEmptyGrid() {
         seatingChartContainer.innerHTML = '';
+        seatingChartContainer.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`; // Update grid columns
+        seatingChartContainer.style.gap = '0.5rem'; // Adjust gap when generating
 
         for (let row = 1; row <= totalRows; row++) {
             for (let col = 1; col <= totalCols; col++) {
                 if (row === kateterRow && col === kateterColumn) {
                     const kateterCellHTML = `
-                        <div id="kateter-cell" class="seating-cell" data-row="${row}" data-col="${col}" draggable="true">
+                        <div id="kateter-cell" class="seating-cell kateter-row" data-row="${row}" data-col="${col}" draggable="true">
                             <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
                         </div>
                     `;
@@ -306,10 +429,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        createResizers();
     }
 
     function calculateRowsNeeded(studentCount, groupSize) {
-        return Math.ceil(studentCount / (groupSize * totalCols));
+        return Math.ceil(studentCount / (groupSize * totalCols)) + 1; // Add one extra row for the kateter
     }
 
     function adjustGridForStudents(studentCount, groupSize) {
@@ -364,6 +489,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    resetButton.addEventListener('click', () => {
+        localStorage.removeItem('gridData');
+        localStorage.removeItem('kateterText');
+        localStorage.removeItem('editableTitle');
+        localStorage.removeItem('editableRoomNumber');
+        location.reload();
+    });
+
     renderEmptyGrid();
 
     generateButton.addEventListener('click', () => {
@@ -371,7 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
         students = names;
         localStorage.setItem('students', JSON.stringify(students));
 
-        const seatingStyle = parseInt(seatingStyleDropdown.value);
+        const seatingStyle = parseInt(seatingStyleInput.value);
+        const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
         adjustGridForStudents(students.length, seatingStyle);
         seatingChartContainer.innerHTML = ''; // Clear previous seating chart before rendering new one
 
@@ -383,7 +517,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const shuffledStudents = shuffle(students.slice());
-        let groupSize = seatingStyle;
         let currentIndex = 0;
         groupCounter = 1;
 
@@ -393,19 +526,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
             if (parseInt(cell.dataset.row) === kateterRow) return; // Skip kateter row for students
 
-            if (groupSize === 1) {
-                const studentDiv = createStudent(shuffledStudents[currentIndex++]);
-                cell.appendChild(studentDiv);
-            } else {
-                const group = createGroup(groupCounter++);
-                for (let j = 0; j < groupSize && currentIndex < shuffledStudents.length; j++, currentIndex++) {
-                    const studentDiv = createStudent(shuffledStudents[currentIndex]);
-                    group.appendChild(studentDiv);
+            if (sitTwoByTwo) {
+                const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
+                cell.appendChild(studentDiv1);
+                if (currentIndex < shuffledStudents.length) {
+                    const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
+                    cell.appendChild(studentDiv2);
                 }
-                if (group.children.length > 1) {
-                    cell.appendChild(group);
+            } else {
+                if (seatingStyle === 1) {
+                    const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                    cell.appendChild(studentDiv);
                 } else {
-                    cell.appendChild(group.children[0]);
+                    const groupStudents = [];
+                    for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
+                        groupStudents.push(shuffledStudents[currentIndex]);
+                    }
+                    const group = createGroup(groupCounter++, groupStudents);
+                    cell.appendChild(group);
                 }
             }
         });
@@ -464,4 +602,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadCurrentGrid();
+
+    const fetchStudentsButton = document.getElementById('fetch-students');
+    const fileInput = document.getElementById('file-input');
+
+    fetchStudentsButton.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                studentTextarea.value = e.target.result.trim();
+            };
+            reader.readAsText(file);
+        }
+    });
 });
