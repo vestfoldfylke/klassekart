@@ -46,11 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCurrentGrid(); // Save the updated grid
     });
 
-    /**
-     * Shuffle an array using the Fisher-Yates algorithm.
-     * @param {Array} array - The array to shuffle.
-     * @returns {Array} The shuffled array.
-     */
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -59,27 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
-    /**
-     * Handle the drag start event.
-     * @param {DragEvent} e - The drag event.
-     */
     function handleDragStart(e) {
         e.target.classList.add('dragging');
         e.dataTransfer.setData('text/plain', e.target.id);
     }
 
-    /**
-     * Handle the drag over event.
-     * @param {DragEvent} e - The drag event.
-     */
     function handleDragOver(e) {
         e.preventDefault();
     }
 
-    /**
-     * Handle the drop event.
-     * @param {DragEvent} e - The drag event.
-     */
     function handleDrop(e) {
         e.preventDefault();
         const draggableElementId = e.dataTransfer.getData('text/plain');
@@ -92,10 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Handle double-click event on a group header to make it editable.
-     * @param {MouseEvent} e - The mouse event.
-     */
     function handleGroupDoubleClick(e) {
         const groupHeader = e.target;
         if (!groupHeader.isContentEditable) {
@@ -108,12 +87,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Handle double-click event on a student div to make it editable.
-     * @param {MouseEvent} e - The mouse event.
-     */
     function handleStudentDoubleClick(e) {
         const studentDiv = e.target;
+        if (!studentDiv.isContentEditable) {
+            studentDiv.contentEditable = true;
+            studentDiv.focus();
+            studentDiv.addEventListener('blur', () => {
+                studentDiv.contentEditable = false;
+                saveCurrentGrid();
+            });
+        }
+    }
+
+    function handleDeleteGroup(e) {
+        const groupElement = e.target.closest('.student-group');
+        if (groupElement) {
+            groupElement.remove();
+            saveCurrentGrid();
+        }
+    }
+
+    function handleDeleteStudent(e) {
+        const studentElement = e.target.closest('.student');
+        if (studentElement) {
+            studentElement.remove();
+            saveCurrentGrid();
+        }
+    }
 
     function createGroup(groupNumber, students = []) {
         const group = document.createElement('div');
