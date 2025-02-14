@@ -14,7 +14,9 @@
         <h1>Klassekart</h1>
     </header>
     <main role="main">
-        <button id="toggle-fixed-settings" class="button" type="button">Vis innstillinger</button> <!-- New button to toggle fixed-settings -->
+        <div id="toggle-fixed-settings-container">
+            <button id="toggle-fixed-settings" class="button" type="button">Vis innstillinger</button> <!-- New button to toggle fixed-settings -->
+        </div>
         <div id="fixed-settings" class="hidden"> <!-- Add hidden class initially -->
             <!-- Removed settings-button -->
 
@@ -37,7 +39,6 @@
                 <button id="generate-button" class="button" type="button">Oppdater klassekart</button>
                 <button id="groups-button" class="button" type="button">Hjelp</button>
             </div>
-
         </div>
         <form id="student-form" aria-labelledby="student-form-heading">
             <h2 id="student-form-heading">Slik gjør du</h2>
@@ -74,16 +75,19 @@
             <h2 id="generate-seating-heading">Steg 2</h2>
             <h4>Gjør tilpasninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4> 
             <br>
-            <p>Legg til flere grupper, elever eller rader ved å bruke knappene under "Vis innstillinger"</p>
-            <p>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</p>
-            <p>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</p>
+            <h4>Valgmuligheter</h4>
+            <li>Flytt boksene ved å dra og slippe direkte i klassekartet</li>
+            <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Vis innstillinger"</li>
+            <li>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</li>
+            <li>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</li>
             <br>
             <h4>Kjente feil</h4>
             <li>Når nettsiden oppdateres ved å bruke CTRL+F5 eller oppdaterknappen må klassekartet genereres pånytt</li>
             <li>Det er kun mulig å laste opp tekstfiler i filformatet .txt</li>
-            <li>-</li>
-            <li>-</li>
-            <li>-</li>
+            <li>Elevene forsvinner fra klassekartet når du endrer antall rader og kolonner, trykk oppdater klassekart, da blir de synlige igjen</li>
+            <li>Utskrift av klassekartet fungerer ikke optimalt</li>
+            <li>Endring av antall rader og kolonner kan gjøre at klassekartet ikke ser så bra ut. Bruk knappen oppdater klassekart etter å ha gjort innstillinger slik at klassekartet blir oppdatert</li>
+            <li>Elever, grupper og bokser forsvinner fra klassekartet når du endrer antall rader og kolonner, trykk oppdater klassekart, da blir de synlige igjen</li>
             <div class="button-group">
                 <a href="#advanced-requirements" id="toggle-advanced-requirements" class="button" aria-expanded="false" aria-controls="advanced-requirements">Avanserte krav</a>
             </div>
@@ -118,7 +122,7 @@
 
         <section id="export-section" aria-labelledby="export-heading">
             <h2 id="export-heading">Steg 3</h2>
-            <h4>Ta et skjermbilde eller bruk skriv ut klassekartet ved å bruke CTRL+P
+            <h4>Ta et skjermbilde for å lagre klassekartet
             </h4>
             <div class="button-group">
                 <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
@@ -131,12 +135,6 @@
         </div>
 
         <section id="seating-chart" aria-label="Seating chart">
-            <div class="seating-cell">
-                <div class="student-group">Gruppe 1</div>
-            </div>
-            <div class="seating-cell">
-                <div class="student-group">Gruppe 2</div>
-            </div>
             <div id="kateter-cell" class="seating-cell kateter-row" draggable="true">
                 <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
             </div>
