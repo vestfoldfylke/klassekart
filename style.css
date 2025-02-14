@@ -439,12 +439,13 @@ section h2 {
     width: 300px; /* Increase width */
     height: 300px; /* Increase height */
     cursor: pointer;
+    justify-content: center; /* Center contents vertically */
 }
 
 .student-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center; /* Center contents horizontally */
     width: 100%;
     cursor: pointer;
 }
@@ -652,8 +653,50 @@ label[for="sit-two-by-two"] {
 }
 
 #settings-button {
-    display: none;
+    display: visible;
 }
 #export-pdf {
     display: none;
+}
+
+#fixed-settings {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px); /* Adjust width to fit within the viewport */
+    background-color: var(--primary-background-color);
+    z-index: 1000;
+    padding: var(--spacing-small);
+    display: flex;
+    gap: var(--spacing-small);
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+#fixed-settings button,
+#fixed-settings label {
+    margin: 0;
+}
+
+#fixed-settings label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#generate-button {
+    display: flex;
+    background-color: var(--primary-background-color);
+}
+
+#toggle-fixed-settings {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1001; /* Ensure it is above other elements */
+}
+
+#export-heading {
+        display: none;    
 }
