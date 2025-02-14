@@ -1,12 +1,12 @@
-/* COMMON CSS */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
+/* FELLES CSS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400,1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 /* VARIABLER */
 :root {
-    /* COLORS */
-    /* Common color variables */
+    /* FARGER */
+    /* Vanlige fargevariabler */
     --primary-color-10: rgb(230, 238, 239);
     --primary-color-20: rgb(204, 220, 223);
     --primary-color-30: rgb(179, 203, 207);
@@ -38,7 +38,7 @@
     --tertiary-color-90: rgb(25, 165, 200);
     --tertiary-color: rgb(0, 155, 194);
 
-    /* COLORS from the new CSS */
+    /* FARGER fra den nye CSS */
     --vann-10: #E5EEEF;
     --vann-20: #CCDCDF;
     --vann-30: #B2CBCF;
@@ -50,7 +50,7 @@
     --vann-90: #196370;
     --vann: #005260;
 
-    /* SPECIFIC COLORS */
+    /* SPESIFIKKE FARGER */
     --primary-background-color: rgb(242, 246, 247);
     --font-color: rgb(0, 0, 0);
     --font-color-inverted: rgb(255, 255, 255);
@@ -63,7 +63,7 @@
     --success-color: rgb(47, 117, 66);
     --success-background-color: rgb(213, 227, 217);
 
-    /* SIZES */
+    /* STØRRELSER */
     --font-size-root: 1rem;
     --font-size-extra-large: 2rem;
     --font-size-large: 1.5rem;
@@ -76,7 +76,7 @@
     --spacing-extra-large: 2rem;
 }
 
-/* HTML Elements styling */
+/* HTML Elementer styling */
 body {
     margin: 0px;
     padding: 0px;
@@ -96,7 +96,7 @@ body {
     margin: 0;
 }
 
-/* Input and buttons */
+/* Input og knapper */
 input, select, textarea, button {
     font-family: inherit;
     font-size: inherit;
@@ -117,8 +117,7 @@ button {
     background-color: var(--himmel-10);
     border: 2px solid var(--himmel-30);
     border-radius: 12px;
-    color: var(--font-color);  /* Ensures text inside buttons have proper color */
-
+    color: var(--font-color);  /* Sikrer at teksten inne i knappene har riktig farge */
 }
 
 button:hover {
@@ -206,17 +205,17 @@ dialog::backdrop {
     color: var(--primary-color);
 }
 
-/* Adjust main and header to accommodate sidebar */
+/* Juster hovedinnhold og header for å tilpasse sidebar */
 header, main {
-    margin-left: 220px; /* Adjust according to the sidebar width */
+    margin-left: 220px; /* Juster i henhold til sidebar bredde */
 }
 
 main {
-    margin-left: 220px; /* Adjust according to the sidebar width */
-    margin-right: 20px; /* Add margin to the right side */
+    margin-left: 220px; /* Juster i henhold til sidebar bredde */
+    margin-right: 20px; /* Legg til margin på høyre side */
 }
 
-/* FOCUS */
+/* FOKUS */
 :focus-visible {
     outline: 4px solid var(--primary-color);
     outline-offset: 1px;
@@ -232,7 +231,7 @@ main {
     outline-offset: -4px;
 }
 
-/* Links */
+/* Lenker */
 a, a:visited {
     color: var(--link-color);
     text-decoration: underline;
@@ -245,13 +244,13 @@ a span.material-symbols-outlined {
     vertical-align: text-bottom;
 }
 
-/* Headers */
+/* Overskrifter */
 h1, h2, h3, h4, h5 {
     margin-top: var(--spacing);
     margin-bottom: var(--spacing-small);
 }
 
-/* Buttons (and link that looks like button for button hrefs) */
+/* Knapper (og lenker som ser ut som knapper for knapp hrefs) */
 button, a.button {
     font-family: inherit;
     font-size: var(--font-size-root);
@@ -265,8 +264,8 @@ button, a.button {
     min-height: 3rem;
     padding: 0 var(--spacing-large);
     cursor: pointer;
-    text-decoration: none; /* Remove from link button (a) */
-    box-sizing: border-box; /* To make link button the same size as regular button */
+    text-decoration: none; /* Fjern fra lenkeknapp (a) */
+    box-sizing: border-box; /* For å gjøre lenkeknappen samme størrelse som vanlig knapp */
 }
 
 button:hover, a.button:hover {
@@ -279,7 +278,7 @@ button:active, a.button:active {
 
 button.filled, a.button.filled, .button-input > button {
     background-color: var(--primary-color);
-    color: var(--font-color-inverted);
+    color: var (--font-color-inverted);
 }
 
 button.filled:hover, a.button.filled:hover, .button-input > button:hover {
@@ -300,7 +299,7 @@ button:disabled, button:disabled:hover {
     color: grey;
 }
 
-/* Style for collapsible sections */
+/* Stil for kollapsbare seksjoner */
 .collapsible {
     display: none;
 }
@@ -309,7 +308,7 @@ button:disabled, button:disabled:hover {
     display: block;
 }
 
-/* Input elements */
+/* Input elementer */
 input {
     font-family: inherit;
     font-size: var(--font-size-root);
@@ -387,12 +386,12 @@ section h2 {
 /* Styling for Seating Chart */
 #seating-chart {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust columns to fit the boxes */
-    grid-auto-rows: auto; /* Allow the rows to adjust dynamically */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Juster kolonner for å passe boksene */
+    grid-auto-rows: auto; /* Tillat radene å justere dynamisk */
     gap: var(--spacing);
     justify-items: center;
     border: 1px solid black;
-    position: relative; /* Added for positioning resizers */
+    position: relative; /* Lagt til for posisjonering av resizers */
 }
 
 .grid-resizer {
@@ -411,13 +410,12 @@ section h2 {
     height: 100%;
     cursor: col-resize;
     border: 1px dashed black; /* Legger til en tynn stiplet linje */
-
 }
 
 .seating-cell {
     border: 1px dashed grey;
     min-height: 50px;
-    min-width: 150px; /* Increase width to fit two students side by side */
+    min-width: 150px; /* Øk bredde for å passe to elever side om side */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -436,16 +434,16 @@ section h2 {
     border-radius: 0.4rem;
     background-color: #f8f8f8;
     align-items: center;
-    width: 300px; /* Increase width */
-    height: 300px; /* Increase height */
+    width: 300px; /* Øk bredde */
+    height: 300px; /* Øk høyde */
     cursor: pointer;
-    justify-content: center; /* Center contents vertically */
+    justify-content: center; /* Sentrer innhold vertikalt */
 }
 
 .student-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center contents horizontally */
+    justify-content: center; /* Sentrer innhold horisontalt */
     width: 100%;
     cursor: pointer;
 }
@@ -460,18 +458,19 @@ section h2 {
     margin: var(--spacing-small) 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Sentrer innhold horisontalt */
     gap: var(--spacing-small);
-    flex: 1 1 45%; /* Adjust to fit two students per row */
+    flex: 1 1 45%; /* Juster for å passe to elever per rad */
     cursor: pointer;
+    height: 50px; /* Sikre en fast høyde for vertikal sentrering */
 }
 
-/* Removing margin from group inside cell */
+/* Fjerner margin fra gruppe inne i celle */
 .seating-cell .student-group {
     margin: 0;
 }
 
-/* Styling for the teacher's desk */
+/* Styling for lærerens pult */
 #teacher-desk {
     border: 2px solid black;
     padding: var(--spacing-small);
@@ -494,18 +493,16 @@ section h2 {
     align-items: center;
     justify-content: flex-start;
     gap: var(--spacing-small);
-    flex-grow: 1; /* Ensures container spans full width to allow content alignment */
-
+    flex-grow: 1; /* Sikrer at containeren strekker seg over hele bredden for å tillate innholdsjustering */
 }
 
 h2#editable-title,
 h3#editable-room-number {
-    text-align: left; /* Force left alignment */
+    text-align: left; /* Tving venstrejustering */
     margin: 0;
-
 }
 
-/* Center contents inside group header */
+/* Sentrer innhold inne i gruppeheader */
 .group-header, .student {
     display: flex;
     align-items: center;
@@ -524,7 +521,7 @@ h3#editable-room-number {
     outline: none;
 }
 
-/* Styling for delete buttons */
+/* Styling for sletteknapper */
 .delete-button {
     cursor: pointer;
     background: transparent;
@@ -539,16 +536,18 @@ h3#editable-room-number {
     display: flex;
     gap: var(--spacing-small);
     flex-wrap: wrap;
+    align-items: center;
+    padding-top: 40px;
 }
 
-/* Media Queries for responsiveness */
+/* Media Queries for responsivitet */
 @media (max-width: 768px) {
     section {
         padding: var(--spacing-small);
     }
 
     .button-group {
-        flex-direction: column-reverse; /* Change to column-reverse */
+        flex-direction: column-reverse; /* Endre til column-reverse */
         display: flex;
         gap: var(--spacing-small);
         flex-wrap: wrap;
@@ -573,7 +572,7 @@ h3#editable-room-number {
     }
 
     header, main {
-        margin-left: 0; /* Remove margin when sidebar is hidden */
+        margin-left: 0; /* Fjern margin når sidebar er skjult */
     }
 
     #toggle-sidebar {
@@ -635,21 +634,21 @@ h3#editable-room-number {
 }
 /* Spesifikk stil for knappen "Avanserte krav" hvis nødvendig */
 #toggle-advanced-requirements {
-    display: none; /* Hide the button */
+    display: none; /* Skjul knappen */
 }
 
 #apply-settings {
-    margin-left: 1rem; /* Add some margin to the left of the button */
+    margin-left: 1rem; /* Legg til litt margin til venstre for knappen */
 }
 
 label[for="sit-two-by-two"] {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Add some space between the checkbox and the text */
+    gap: 0.5rem; /* Legg til litt plass mellom avkrysningsboksen og teksten */
 }
 
 #sit-two-by-two {
-    transform: scale(1.2); /* Adjust the scale to match the text size */
+    transform: scale(1.2); /* Juster skalaen for å matche tekststørrelsen */
 }
 
 #settings-button {
@@ -663,40 +662,146 @@ label[for="sit-two-by-two"] {
     position: fixed;
     top: 10px;
     left: 10px;
-    width: calc(100% - 20px); /* Adjust width to fit within the viewport */
+    width: calc(100% - 20px); /* Juster bredde for å passe innenfor visningsområdet */
     background-color: var(--primary-background-color);
     z-index: 1000;
     padding: var(--spacing-small);
     display: flex;
     gap: var(--spacing-small);
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Sikre at knappene er riktig plassert */
     border-bottom: 1px solid var(--primary-color);
+    flex-wrap: wrap; /* Tillat innpakning for mindre skjermer */
 }
 
-#fixed-settings button,
-#fixed-settings label {
-    margin: 0;
+#fixed-settings .button-group {
+    display: flex;
+    gap: var(--spacing-small);
+    flex-wrap: wrap; /* Tillat innpakning for mindre skjermer */
+    align-items: center;
+    justify-content: flex-start; /* Juster knappene til starten */
 }
 
 #fixed-settings label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
+}
+
+#fixed-settings button {
+    margin: 0;
 }
 
 #generate-button {
     display: flex;
-    background-color: var(--primary-background-color);
+    background-color: var(--tertiary-color); /* Bakgrunnsfarge som skiller seg ut fra de andre knappene */
+    color: var(--font-color-inverted); /* Sikre at teksten er lesbar */
 }
 
 #toggle-fixed-settings {
     position: fixed;
     top: 10px;
     right: 10px;
-    z-index: 1001; /* Ensure it is above other elements */
+    z-index: 1001; /* Sikre at den er over andre elementer */
 }
 
 #export-heading {
         display: none;    
+}
+
+@media print {
+    /* Skjul alle elementer som standard */
+    body * {
+        display: none !important;
+    }
+
+    /* Vis kun editable-container, seating-chart og titler */
+    .editable-container, #seating-chart, #editable-title, #editable-room-number {
+        display: block !important;
+    }
+
+    /* Sikre at seating-chart tar hele bredden */
+    #seating-chart {
+        width: 60% !important;
+        page-break-inside: avoid; /* Forhindre sideskift inne i seating chart */
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; /* Juster kolonner for å passe boksene */
+        grid-auto-rows: auto !important; /* Tillat radene å justere dynamisk */
+        gap: var(--spacing) !important;
+        justify-items: center !important;
+        border: 1px solid black !important;
+    }
+
+    /* Sikre at editable-container er synlig */
+    .editable-container {
+        width: 100% !important;
+        margin-bottom: 1rem;
+        page-break-inside: avoid; /* Forhindre sideskift inne i editable container */
+    }
+
+    /* Sikre at tittel og romnummer er synlige */
+    #editable-title, #editable-room-number {
+        display: block !important;
+        width: 100% !important;
+        text-align: center; /* Sentrer teksten */
+        margin-bottom: 1rem;
+    }
+
+    /* Sikre at seating cells er synlige */
+    .seating-cell {
+        display: flex !important;
+        border: 1px solid black !important;
+        min-height: 50px !important;
+        min-width: 150px !important;
+        padding: 0.5rem !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+    }
+
+    /* Sikre at elevgrupper og elever er synlige */
+    .student-group, .student {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: 1px solid black !important;
+        padding: 0.5rem !important;
+        margin: 0.5rem !important;
+        flex: 1 1 45% !important; /* Juster for å passe to elever per rad */
+    }
+
+    /* Sikre at student-container inne i grupper er synlig */
+    .student-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    /* Sikre at header er synlig */
+    header {
+        display: block !important;
+    }
+
+    /* Sikre at hovedinnholdet er synlig */
+    main {
+        display: block !important;
+    }
+
+    /* Sikre at grid resizers er skjult */
+    .grid-resizer {
+        display: none !important;
+    }
+
+    /* Sikre at kateter cellen er synlig */
+    .kateter-row {
+        display: flex !important;
+        border: 1px solid black !important;
+        min-height: 50px !important;
+        min-width: 150px !important;
+        padding: 0.5rem !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background-color: var(--secondary-color-10) !important;
+    }
 }
