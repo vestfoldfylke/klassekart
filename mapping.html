@@ -5,17 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapping Table</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #005260;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
+            text-align: left;
         }
         th {
             background-color: #f2f2f2;
-            text-align: left;
+            color: #005260;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #555;
         }
     </style>
 </head>
@@ -285,5 +305,8 @@
             </tr>
         </tbody>
     </table>
+    <div class="note">
+        <p><strong>Note:</strong> This table maps the elements in the HTML file to their corresponding CSS and JavaScript files. This helps in understanding the connections and dependencies between the files, making it easier to maintain and update the codebase.</p>
+    </div>
 </body>
 </html>
