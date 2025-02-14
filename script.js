@@ -23,29 +23,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const kateterColumn = 2; // Middle column for 3x3 grid
 
     const settingsButton = document.getElementById('settings-button');
-    const settingsSection = document.getElementById('settings-section');
-    const applySettingsButton = document.getElementById('apply-settings');
-    const numRowsInput = document.getElementById('num-rows');
-    const numColsInput = document.getElementById('num-cols');
-    const exportSection = document.getElementById('export-section');
+const settingsSection = document.getElementById('settings-section');
+const applySettingsButton = document.getElementById('apply-settings');
+const numRowsInput = document.getElementById('num-rows');
+const numColsInput = document.getElementById('num-cols');
+const exportSection = document.getElementById('export-section');
+const fixedSettings = document.getElementById('fixed-settings');
 
+if (settingsButton) {
     settingsButton.addEventListener('click', () => {
         const isCollapsed = settingsSection.classList.contains('collapsible');
         settingsSection.classList.toggle('collapsible');
         settingsSection.setAttribute('aria-hidden', isCollapsed ? 'false' : 'true');
-        exportSection.insertAdjacentElement('afterend', settingsSection); // Move settings section under export section
+        fixedSettings.classList.toggle('hidden'); // Toggle visibility of fixed-settings
     });
+}
 
-    applySettingsButton.addEventListener('click', () => {
-        const currentGridData = saveCurrentGridData(); // Save current grid data
-        totalRows = parseInt(numRowsInput.value);
-        totalCols = parseInt(numColsInput.value);
-        kateterRow = totalRows; // Update kateterRow to the new bottom row
-        renderEmptyGrid();
-        loadGridData(currentGridData); // Load saved grid data
-        saveCurrentGrid(); // Save the updated grid
-    });
+const toggleSidebarButton = document.getElementById('toggle-sidebar');
+const sidebar = document.getElementById('menu-placeholder');
+toggleSidebarButton.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+    document.querySelector('header').classList.toggle('full-width');
+    document.querySelector('main').classList.toggle('full-width');
+});
 
+applySettingsButton.addEventListener('click', () => {
+    const currentGridData = saveCurrentGridData(); // Save current grid data
+    totalRows = parseInt(numRowsInput.value);
+    totalCols = parseInt(numColsInput.value);
+    kateterRow = totalRows; // Update kateterRow to the new bottom row
+    renderEmptyGrid();
+    loadGridData(currentGridData); // Load saved grid data
+    saveCurrentGrid(); // Save the updated grid
+});
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -66,10 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDrop(e) {
         e.preventDefault();
         const draggableElementId = e.dataTransfer.getData('text/plain');
-        const dropZone = e.target.closest('.seating-cell, .student-group');
+        const dropZone = e.target.closest('.seating-cell, .student-group, .student-container');
         const draggableElement = document.getElementById(draggableElementId);
         if (dropZone && draggableElement && dropZone !== draggableElement) {
-            dropZone.appendChild(draggableElement);
+            if (dropZone.classList.contains('student-group')) {
+                dropZone.querySelector('.student-container').appendChild(draggableElement);
+            } else {
+                dropZone.appendChild(draggableElement);
+            }
             draggableElement.classList.remove('dragging');
             saveCurrentGrid();
         }
@@ -281,11 +295,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function autoGenerateSeatingChart() {
+        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        students = names;
+        localStorage.setItem('students', JSON.stringify(students));
+
+        const seatingStyle = parseInt(seatingStyleInput.value);
+        const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
+        adjustGridForStudents(students.length, seatingStyle);
+        seatingChartContainer.innerHTML = ''; // Clear previous seating chart before rendering new one
+
+        renderEmptyGrid(); // Render the adjusted grid
+
+        if (students.length === 0 && studentCounter === 0) {
+            alert('Vennligst registrer elevene først.');
+            return;
+        }
+
+        const shuffledStudents = shuffle(students.slice());
+        let currentIndex = 0;
+        groupCounter = 1;
+
+        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
+            if (currentIndex >= shuffledStudents.length) return;
+
+            if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
+            if (parseInt(cell.dataset.row) === kateterRow) return; // Skip kateter row for students
+
+            if (sitTwoByTwo) {
+                const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
+                cell.appendChild(studentDiv1);
+                if (currentIndex < shuffledStudents.length) {
+                    const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
+                    cell.appendChild(studentDiv2);
+                }
+            } else {
+                if (seatingStyle === 1) {
+                    const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                    cell.appendChild(studentDiv);
+                } else {
+                    const groupStudents = [];
+                    for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
+                        groupStudents.push(shuffledStudents[currentIndex]);
+                    }
+                    const group = createGroup(groupCounter++, groupStudents);
+                    cell.appendChild(group);
+                }
+            }
+        });
+
+        saveCurrentGrid();
+    }
+
     fillExampleButton.addEventListener('click', () => {
         fetch('elever.jsx')
             .then(response => response.text())
             .then(data => {
                 studentTextarea.value = data.trim();
+                autoGenerateSeatingChart(); // Automatically generate seating chart
             })
             .catch(error => {
                 console.error('Error fetching example students:', error);
@@ -506,6 +573,11 @@ document.addEventListener('DOMContentLoaded', () => {
         students = names;
         localStorage.setItem('students', JSON.stringify(students));
 
+        // Apply settings from num-rows and num-cols
+        totalRows = parseInt(numRowsInput.value);
+        totalCols = parseInt(numColsInput.value);
+        kateterRow = totalRows; // Update kateterRow to the new bottom row
+
         const seatingStyle = parseInt(seatingStyleInput.value);
         const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
         adjustGridForStudents(students.length, seatingStyle);
@@ -618,6 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 studentTextarea.value = e.target.result.trim();
+                autoGenerateSeatingChart(); // Automatically generate seating chart
             };
             reader.readAsText(file);
         }
