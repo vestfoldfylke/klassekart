@@ -92,7 +92,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     image-rendering: -webkit-optimize-contrast;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    padding: 0;
+    padding: -1;
     margin: 0;
 }
 
@@ -537,7 +537,7 @@ h3#editable-room-number {
     gap: var(--spacing-small);
     flex-wrap: wrap;
     align-items: center;
-    padding-top: 40px;
+    padding-top: 60px;
 }
 
 /* Media Queries for responsivitet */
@@ -661,7 +661,7 @@ label[for="sit-two-by-two"] {
 #fixed-settings {
     position: fixed;
     top: 10px;
-    left: 10px;
+    left: 220px;
     width: calc(100% - 20px); /* Juster bredde for å passe innenfor visningsområdet */
     background-color: var(--primary-background-color);
     z-index: 1000;
@@ -669,7 +669,7 @@ label[for="sit-two-by-two"] {
     display: flex;
     gap: var(--spacing-small);
     align-items: center;
-    justify-content: space-between; /* Sikre at knappene er riktig plassert */
+    justify-content: center; /* Sikre at knappene er riktig plassert */
     border-bottom: 1px solid var(--primary-color);
     flex-wrap: wrap; /* Tillat innpakning for mindre skjermer */
 }
