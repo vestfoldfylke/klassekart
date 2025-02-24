@@ -11,7 +11,7 @@
     <div id="menu-placeholder" role="navigation" aria-label="Main navigation" class="sidebar"></div>
 
     <header role="banner">
-        <h1>Klassekart</h1>
+        <h1>Klassekartbyggeren 👷‍♂️</h1>
     </header>
     <main role="main">
         <div id="toggle-fixed-settings-container">
@@ -20,10 +20,12 @@
         <div id="fixed-settings" class="hidden"> <!-- Add hidden class initially -->
             <!-- Removed settings-button -->
 
-            <label for="seating-style">Velg antall elever pr gruppe:</label> <!-- Moved seating-style here -->
-            <input type="number" id="seating-style" min="1" value="1">
+
             <!-- Move buttons from settings-section to fixed-settings -->
             <div class="button-group">
+                <label for="seating-style">Velg antall elever pr gruppe:</label> <!-- Moved seating-style here -->
+                <input type="number" id="seating-style" min="1" value="1">
+                <br>
                 <label for="num-rows">Antall rader:</label>
                 <br>
                 <input type="number" id="num-rows" min="1" value="3">
