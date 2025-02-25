@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Juster gruppestørrelse basert på antall elever
-        const baseHeight = 100; // Grunnhøyde for gruppen
+        const baseHeight = 300; // Grunnhøyde for gruppen
         const studentHeight = 50; // Høyde for hver elev
         group.style.height = `${baseHeight + students.length * studentHeight}px`;
 
