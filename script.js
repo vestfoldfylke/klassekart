@@ -782,4 +782,17 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsText(file);
         }
     });
+
+    const toggleVisibilityButton = document.getElementById('toggle-visibility-button');
+    toggleVisibilityButton.addEventListener('click', () => {
+        const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
+        elements.forEach(element => {
+            element.classList.toggle('hidden-lines');
+        });
+       
+        const seatingCells = document.querySelectorAll('.seating-cell');
+        seatingCells.forEach(cell => {
+            cell.classList.toggle('hidden-border');
+        });
+    });
 });

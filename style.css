@@ -804,4 +804,16 @@ label[for="sit-two-by-two"] {
         align-items: center !important;
         background-color: var(--secondary-color-10) !important;
     }
+    /* Skjul linjene i klassekartet */
+    .hidden-lines {
+        display: none !important;
+    }
+}
+
+.hidden-lines {
+    display: none !important;
+}
+
+.hidden-border {
+    border: none !important;
 }
