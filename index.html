@@ -15,7 +15,7 @@
     </header>
     <main role="main">
         <div id="toggle-fixed-settings-container">
-            <button id="toggle-fixed-settings" class="button" type="button">Vis innstillinger</button> <!-- New button to toggle fixed-settings -->
+            <button id="toggle-fixed-settings" class="button" type="button">Lag klassekart manuelt</button> <!-- New button to toggle fixed-settings -->
         </div>
         <div id="fixed-settings" class="hidden"> <!-- Add hidden class initially -->
             <!-- Removed settings-button -->
@@ -23,9 +23,6 @@
 
             <!-- Move buttons from settings-section to fixed-settings -->
             <div class="button-group">
-                <label for="seating-style">Velg antall elever pr gruppe:</label> <!-- Moved seating-style here -->
-                <input type="number" id="seating-style" min="1" value="1">
-                <br>
                 <label for="num-rows">Antall rader:</label>
                 <br>
                 <input type="number" id="num-rows" min="1" value="3">
@@ -45,13 +42,20 @@
         <form id="student-form" aria-labelledby="student-form-heading">
             <h2 id="student-form-heading">Slik gjør du</h2>
             <h4>For å lage et klassekart må du gjøre følgende:</h4>
-            <p>1. Skriv inn navnene på elevene i tekstboksen eller hent elever fra en fil med filtypen .txt-</p>
-            <p>2. Juster klassekartet litt lenger ned på siden ved å bruke dra og slipp</p>
-            <p>3. Ta et skjermbilde eller skriv ut klassekartet ved å trykke på CTRL+P</p>
+            <p>1. Velg hvordan du ønsker å plassere elevene</p>
+            <p>2. Skriv inn navnene på elevene i tekstboksen eller hent elever fra en fil med filtypen .txt-</p>
+            <p>3. Juster klassekartet litt lenger ned på siden ved å bruke dra og slipp</p>
+            <p>4. Ta et skjermbilde eller skriv ut klassekartet ved å trykke på CTRL+P</p>
             <br>
-            <h4>Du finner flere valg via "Vis innstillinger" øverst i høyre hjørne</h4>
+            <h4>Du finner flere valg via "Manuelle innstillinger" øverst i høyre hjørne</h4>
             <br>
-            <h2 id="student-form-heading">Steg 1</h2>
+            <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
+            <p>Velg kun en av disse:</p>
+                <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to</label><label for="seating-style">eller i grupper med </label><input type="number" id="seating-style" min="1" value="1"> elever pr gruppe?
+            <br>
+            <br>
+            <h2 id="student-form-heading">Steg 2: Elevenes navn</h2>
+            <br>
             <label for="student-names"><h4>Skriv navnene til elevene (ett navn pr linje)</h4></label>
             <textarea id="student-names" rows="5" placeholder="Skriv inn fornavnene på elevene, én per linje"></textarea>
             <div class="button-group">
@@ -60,12 +64,9 @@
                 <button id="generate-button" class="button" type="button">Oppdater klassekart</button>
                 <button id="reset-button" class="button" type="button">Nullstill klassekart</button> <!-- Moved reset-button here -->
                 <input type="file" id="file-input" accept=".txt" style="display: none;">
-                <button id="toggle-generate-seating-heading" class="button" type="button">Vis/Skjul Steg 2</button>
+                <button id="toggle-generate-seating-heading" class="button" type="button">Tips</button>
             </div>
-            <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to?</label> <!-- Moved sit-two-by-two here -->
-            <p>🙋🙋‍♀️ Dersom du vil at elevene skal sitte to og to, velg dette valget før du henter inn elevene.</p>
-            <p>Skal du å bruke dele elevene i grupper må dette valget slåes av</p>
-            <br>
+
         </form>
         
         <section id="settings-section" class="collapsible" aria-labelledby="settings-heading" aria-hidden="true">
@@ -75,13 +76,13 @@
             <button id="apply-settings" class="button" type="button">Bruk</button>
         </section>
 
-        <section id="generate-seating" aria-labelledby="generate-seating-heading">
-            <h2 id="generate-seating-heading">Steg 2</h2> 
-            <h4>Gjør tilpasninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4> 
+        <section id="generate-seating" class="hidden" aria-labelledby="generate-seating-heading"> <!-- Add hidden class initially -->
+            <h2 id="generate-seating-heading">Tips</h2> 
+            <h4>Gjør manuelle tilpasninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4> 
             <br>
             <h4>Valgmuligheter</h4>
             <li>Flytt boksene ved å dra og slippe direkte i klassekartet</li>
-            <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Vis innstillinger"</li>
+            <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Lag klassekart manuelt" (fungerer best dersom du legger elevene inn manuelt)</li>
             <li>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</li>
             <li>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</li>
             <br>
