@@ -39,7 +39,6 @@
                 <button id="add-row-button" class="button" type="button">Legg til boks</button>
                 <button id="remove-row-button" class="button" type="button">Slett boks</button>
                 <button id="toggle-visibility-button" class="button" type="button">Vis/skjul linjer</button>
-                <button id="generate-button" class="button" type="button">Oppdater klassekart</button>
                 <button id="groups-button" class="button" type="button">Hjelp</button>
             </div>
         </div>
@@ -58,8 +57,10 @@
             <div class="button-group">
                 <button id="fetch-students" class="button" type="button">Hent elever</button>
                 <button id="fill-example-students" class="button" type="button">Fyll inn eksempelelever</button>
+                <button id="generate-button" class="button" type="button">Oppdater klassekart</button>
                 <button id="reset-button" class="button" type="button">Nullstill klassekart</button> <!-- Moved reset-button here -->
                 <input type="file" id="file-input" accept=".txt" style="display: none;">
+                <button id="toggle-generate-seating-heading" class="button" type="button">Vis/Skjul Steg 2</button>
             </div>
             <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to?</label> <!-- Moved sit-two-by-two here -->
             <p>🙋🙋‍♀️ Dersom du vil at elevene skal sitte to og to, velg dette valget før du henter inn elevene.</p>
@@ -75,7 +76,7 @@
         </section>
 
         <section id="generate-seating" aria-labelledby="generate-seating-heading">
-            <h2 id="generate-seating-heading">Steg 2</h2>
+            <h2 id="generate-seating-heading">Steg 2</h2> 
             <h4>Gjør tilpasninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4> 
             <br>
             <h4>Valgmuligheter</h4>
@@ -83,6 +84,11 @@
             <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Vis innstillinger"</li>
             <li>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</li>
             <li>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</li>
+            <br>
+            <h4>Ta et skjermbilde for å lagre klassekartet
+            </h4>
+            <p>Dra de vertikale linjene i klassekartet nærmere hverandre for en bedre visuell fremstilling.
+            <p>Trykk skjul linjer før du tar kjermbilde slik at du får er penere bilde av klassekartet</p>
             <div class="button-group">
                 <a href="#advanced-requirements" id="toggle-advanced-requirements" class="button" aria-expanded="false" aria-controls="advanced-requirements">Avanserte krav</a>
             </div>
@@ -124,11 +130,6 @@
         </section>
 
         <section id="export-section" aria-labelledby="export-heading">
-            <h2 id="export-heading">Steg 3</h2>
-            <h4>Ta et skjermbilde for å lagre klassekartet
-            </h4>
-            <p>Dra de vertikale linjene i klassekartet nærmere hverandre for en bedre visuell fremstilling.
-            <p>Trykk skjul linjer før du tar kjermbilde slik at du får er penere bilde av klassekartet</p>
             <div class="button-group">
                 <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
             </div>
@@ -175,6 +176,13 @@
             const toggleFixedSettingsButton = document.getElementById('toggle-fixed-settings');
             toggleFixedSettingsButton.addEventListener('click', () => {
                 fixedSettings.classList.toggle('hidden');
+            });
+
+            const toggleGenerateSeatingHeadingButton = document.getElementById('toggle-generate-seating-heading');
+            const generateSeatingSection = document.getElementById('generate-seating');
+
+            toggleGenerateSeatingHeadingButton.addEventListener('click', () => {
+                generateSeatingSection.classList.toggle('hidden');
             });
         });
     </script>
