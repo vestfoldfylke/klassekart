@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     let groupCounter = 1;
     let studentCounter = students.length;
-    let totalCols = 3; // Standard antall kolonner
+    let totalCols = 4; // Standard antall kolonner
     let totalRows = 4; // Standard antall rader inkludert kateter-raden
     let kateterRow = totalRows; // Plasser kateteret på nederste rad
     const kateterColumn = 2; // Midterste kolonne for 3x3 grid
@@ -388,6 +388,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.appendChild(group);
                 }
             }
+        });
+
+        // Ensure elements remain hidden after generating the seating chart
+        const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
+        elements.forEach(element => {
+            element.classList.add('hidden-lines');
+        });
+
+        const seatingCells = document.querySelectorAll('.seating-cell');
+        seatingCells.forEach(cell => {
+            cell.classList.add('hidden-border');
         });
 
         saveCurrentGrid();
@@ -794,5 +805,16 @@ document.addEventListener('DOMContentLoaded', () => {
         seatingCells.forEach(cell => {
             cell.classList.toggle('hidden-border');
         });
+    });
+
+    // Ensure elements are hidden by default
+    const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
+    elements.forEach(element => {
+        element.classList.add('hidden-lines');
+    });
+
+    const seatingCells = document.querySelectorAll('.seating-cell');
+    seatingCells.forEach(cell => {
+        cell.classList.add('hidden-border');
     });
 });
