@@ -313,7 +313,7 @@ input {
     font-family: inherit;
     font-size: var(--font-size-root);
     min-height: 3.5rem;
-    padding: 0 var(--spacing);
+    padding:  1 var(--spacing);
     background-color: var(--primary-background-color);
     border: 2px solid var(--primary-color);
     border-radius: 0.4rem;
@@ -322,7 +322,7 @@ input {
 textarea, select {
     font-family: inherit;
     font-size: var(--font-size-root);
-    padding: var(--spacing-small);
+    padding: 1 var(--spacing-small);
     width: 100%;
     border: 2px solid var(--primary-color);
     border-radius: 0.4rem;
@@ -339,7 +339,8 @@ textarea:focus-visible, input:focus-visible, select:focus-visible {
 }
 
 input[type="number"], input[type="text"], select {
-    min-height: 3.5rem;
+    min-height: 2rem;
+    width: 4rem;
 }
 textarea:focus-visible, input:focus-visible, select:focus-visible,
 #kateter-text:focus-visible,
