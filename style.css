@@ -817,3 +817,11 @@ label[for="sit-two-by-two"] {
 .hidden-border {
     border: none !important;
 }
+
+/* Ensure the following elements are hidden by default */
+.grid-resizer.horizontal,
+.grid-resizer.vertical,
+{
+    display: none;
+    border: none;
+}
