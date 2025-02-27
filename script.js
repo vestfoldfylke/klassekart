@@ -328,16 +328,95 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Funksjon for å beregne antall rader som trengs
+    function calculateRowsNeeded(studentCount, cols) {
+        return Math.ceil(studentCount / cols) + 1; // Legg til en ekstra rad for kateteret
+    }
+
+    // Funksjon for å beregne antall kolonner som trengs
+    function calculateColsNeeded(studentCount, rows) {
+        return Math.ceil(studentCount / rows);
+    }
+
+    // Funksjon for å justere gridet for elever
+    function adjustGridForStudents(studentCount, groupSize) {
+        totalRows = calculateRowsNeeded(studentCount, totalCols);
+        totalCols = calculateColsNeeded(studentCount, totalRows);
+        kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
+        renderEmptyGrid();
+        loadCurrentGrid(); // Last inn nåværende grid-data etter justering av gridet
+    }
+
+    // Funksjon for å render tomt grid
+    function renderEmptyGrid() {
+        seatingChartContainer.innerHTML = '';
+        seatingChartContainer.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`; // Oppdater grid-kolonner
+        seatingChartContainer.style.gap = '0.5rem'; // Juster gap ved generering
+    
+        for (let row = 1; row <= totalRows; row++) {
+            for (let col = 1; col <= totalCols; col++) {
+                if (row === kateterRow && col === kateterColumn) {
+                    const kateterCellHTML = `
+                        <div id="kateter-cell" class="seating-cell kateter-row" data-row="${row}" data-col="${col}" draggable="true">
+                            <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
+                        </div>
+                    `;
+                    seatingChartContainer.insertAdjacentHTML('beforeend', kateterCellHTML);
+    
+                    const kateterText = document.getElementById('kateter-text');
+                    kateterText.addEventListener('dblclick', () => {
+                        kateterText.removeAttribute('readonly');
+                        kateterText.focus();
+                    });
+                    kateterText.addEventListener('blur', () => {
+                        kateterText.setAttribute('readonly', true);
+                    });
+                    kateterText.addEventListener('input', () => {
+                        localStorage.setItem('kateterText', kateterText.value);
+                    });
+    
+                    if (localStorage.getItem('kateterText')) {
+                        kateterText.value = localStorage.getItem('kateterText');
+                    }
+                    
+                    const kateterCell = document.getElementById('kateter-cell');
+                    kateterCell.addEventListener('dragstart', handleDragStart);
+                    kateterCell.addEventListener('dragover', handleDragOver);
+                    kateterCell.addEventListener('drop', handleDrop);
+                } else {
+                    const cell = document.createElement('div');
+                    cell.className = 'seating-cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    cell.addEventListener('dragover', handleDragOver);
+                    cell.addEventListener('drop', handleDrop);
+                    seatingChartContainer.appendChild(cell);
+                }
+            }
+        }
+    
+        createResizers();
+    }
+    
+
     // Legg til event listener for å legge til elev
     addStudentButton.addEventListener('click', () => {
+        const currentGridData = saveCurrentGridData(); // Lagre nåværende grid-data
         const firstEmptyCell = Array.from(seatingChartContainer.querySelectorAll('.seating-cell')).find(cell => cell.children.length === 0 && !(parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn));
         if (firstEmptyCell) {
             const studentDiv = createStudent('Ny elev');
             firstEmptyCell.appendChild(studentDiv);
-            saveCurrentGrid();
         } else {
-            alert('Ingen ledige plasseringer tilgjengelig.');
+            totalRows = calculateRowsNeeded(students.length + 1, totalCols); // Beregn nødvendig antall rader
+            totalCols = calculateColsNeeded(students.length + 1, totalRows); // Beregn nødvendig antall kolonner
+            kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
+            renderEmptyGrid();
+            loadGridData(currentGridData); // Last inn lagret grid-data
+            const newFirstEmptyCell = Array.from(seatingChartContainer.querySelectorAll('.seating-cell')).find(cell => cell.children.length === 0 && !(parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn));
+            const studentDiv = createStudent('Ny elev');
+            newFirstEmptyCell.appendChild(studentDiv);
         }
+        saveCurrentGrid();
     });
 
     // Funksjon for automatisk generering av klassekart
@@ -522,57 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mouseup', stopDrag);
     }
 
-    // Funksjon for å render tomt grid
-    function renderEmptyGrid() {
-        seatingChartContainer.innerHTML = '';
-        seatingChartContainer.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`; // Oppdater grid-kolonner
-        seatingChartContainer.style.gap = '0.5rem'; // Juster gap ved generering
-
-        for (let row = 1; row <= totalRows; row++) {
-            for (let col = 1; col <= totalCols; col++) {
-                if (row === kateterRow && col === kateterColumn) {
-                    const kateterCellHTML = `
-                        <div id="kateter-cell" class="seating-cell kateter-row" data-row="${row}" data-col="${col}" draggable="true">
-                            <input id="kateter-text" type="text" value="Kateter" aria-label="Kateter" readonly />
-                        </div>
-                    `;
-                    seatingChartContainer.insertAdjacentHTML('beforeend', kateterCellHTML);
-
-                    const kateterText = document.getElementById('kateter-text');
-                    kateterText.addEventListener('dblclick', () => {
-                        kateterText.removeAttribute('readonly');
-                        kateterText.focus();
-                    });
-                    kateterText.addEventListener('blur', () => {
-                        kateterText.setAttribute('readonly', true);
-                    });
-                    kateterText.addEventListener('input', () => {
-                        localStorage.setItem('kateterText', kateterText.value);
-                    });
-
-                    if (localStorage.getItem('kateterText')) {
-                        kateterText.value = localStorage.getItem('kateterText');
-                    }
-                    
-                    const kateterCell = document.getElementById('kateter-cell');
-                    kateterCell.addEventListener('dragstart', handleDragStart);
-                    kateterCell.addEventListener('dragover', handleDragOver);
-                    kateterCell.addEventListener('drop', handleDrop);
-                } else {
-                    const cell = document.createElement('div');
-                    cell.className = 'seating-cell';
-                    cell.dataset.row = row;
-                    cell.dataset.col = col;
-                    cell.addEventListener('dragover', handleDragOver);
-                    cell.addEventListener('drop', handleDrop);
-                    seatingChartContainer.appendChild(cell);
-                }
-            }
-        }
-
-        createResizers();
-    }
-
     // Sørg for at gridet er rendret og fylt med data før utskrift
     window.addEventListener('beforeprint', () => {
         renderEmptyGrid();
@@ -584,19 +612,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderEmptyGrid();
         loadCurrentGrid();
     });
-
-    // Funksjon for å beregne antall rader som trengs
-    function calculateRowsNeeded(studentCount, groupSize) {
-        return Math.ceil(studentCount / (groupSize * totalCols)) + 1; // Legg til en ekstra rad for kateteret
-    }
-
-    // Funksjon for å justere gridet for elever
-    function adjustGridForStudents(studentCount, groupSize) {
-        totalRows = calculateRowsNeeded(studentCount, groupSize);
-        kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
-        renderEmptyGrid();
-        loadCurrentGrid(); // Last inn nåværende grid-data etter justering av gridet
-    }
 
     // Legg til event listener for å legge til rad
     addRowButton.addEventListener('click', () => {
