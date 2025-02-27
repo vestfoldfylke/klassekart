@@ -719,6 +719,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         saveCurrentGrid();
+
+        // Ensure elements remain hidden after generating the seating chart
+        const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
+        elements.forEach(element => {
+            element.classList.add('hidden-lines');
+        });
+
+        const seatingCells = document.querySelectorAll('.seating-cell');
+        seatingCells.forEach(cell => {
+            cell.classList.add('hidden-border');
+        });
     });
 
     // Legg til event listener for å redigere tittel
