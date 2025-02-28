@@ -288,6 +288,32 @@
                 hiddenElementsTableBody.appendChild(row);
             });
 
+            const unusedElements = [
+                { id: '#export-pdf', file: 'index.html', line: 1, description: 'Button to export the seating chart as PDF.' },
+                { id: '#toggle-advanced-requirements', file: 'index.html', line: 1, description: 'Button to toggle advanced requirements section.' },
+                { id: '#add-row-button', file: 'index.html', line: 1, description: 'Button to add a new row.' },
+                { id: '#remove-row-button', file: 'index.html', line: 1, description: 'Button to remove a row.' },
+                { id: '#toggle-visibility-button', file: 'index.html', line: 1, description: 'Button to toggle visibility of grid lines.' }
+            ];
+
+            unusedElements.forEach(element => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${element.id}</td>
+                    <td>${element.file}</td>
+                    <td>${element.line}</td>
+                    <div class="dropdown-info">
+                        <p>${element.description}</p>
+                        <p><a href="${element.file}" target="_blank">File: ${element.file}</a></p>
+                        <p>Line: ${element.line}</p>
+                    </div>
+                `;
+                row.addEventListener('click', () => {
+                    row.classList.toggle('locked');
+                });
+                unusedFunctionsTableBody.appendChild(row);
+            });
+
             window.onerror = function(message, source, lineno, colno, error) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
