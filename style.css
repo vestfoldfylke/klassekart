@@ -830,3 +830,9 @@ label[for="sit-two-by-two"] {
 .button-invite {
     cursor: pointer;
 }
+
+#add-row-button,
+#remove-row-button,
+#toggle-visibility-button {
+    display: none;
+}

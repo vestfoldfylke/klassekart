@@ -841,4 +841,17 @@ document.addEventListener('DOMContentLoaded', () => {
     seatingCells.forEach(cell => {
         cell.classList.add('hidden-border');
     });
+
+    // Log JavaScript errors to mapping.html
+    window.onerror = function(message, source, lineno, colno, error) {
+        const errorTableBody = document.querySelector('#error-table tbody');
+        if (errorTableBody) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>JavaScript Error</td>
+                <td class="error">${message} at ${source}:${lineno}:${colno}</td>
+            `;
+            errorTableBody.appendChild(row);
+        }
+    };
 });

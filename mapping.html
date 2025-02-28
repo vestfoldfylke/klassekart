@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapping Table</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
-            color: #005260;
+            color: var(--primary-color);
         }
         table {
             width: 100%;
@@ -24,23 +25,45 @@
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
-            color: #005260;
+            background-color: var(--primary-background-color);
+            color: var(--primary-color);
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: var(--primary-color-10);
         }
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: var(--primary-color-20);
         }
         .note {
             font-size: 0.9em;
             color: #555;
         }
+        .error {
+            color: var(--error-color);
+        }
+        .warning {
+            color: var(--warning-color);
+        }
+        .dropdown-info {
+            display: none;
+            position: absolute;
+            background-color: var(--primary-background-color);
+            border: 1px solid var(--primary-color);
+            padding: 10px;
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 0.9em;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        tr.locked .dropdown-info {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <h1>Mapping Table</h1>
+    <h2>Correctly Referenced Elements</h2>
     <table>
         <thead>
             <tr>
@@ -51,262 +74,229 @@
             </tr>
         </thead>
         <tbody>
-            <!-- #toggle-sidebar button -->
+            <!-- Correctly referenced elements will be populated here by JavaScript -->
+        </tbody>
+    </table>
+    <h2>Incorrectly Referenced Elements</h2>
+    <table id="error-table">
+        <thead>
             <tr>
-                <td>#toggle-sidebar</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
+                <th>Element ID/Class</th>
+                <th>Error/Warning</th>
             </tr>
-            <!-- #menu-placeholder div -->
+        </thead>
+        <tbody>
+            <!-- Errors will be populated here by JavaScript -->
+        </tbody>
+    </table>
+    <h2>Unused Functions</h2>
+    <table id="unused-functions-table">
+        <thead>
             <tr>
-                <td>#menu-placeholder</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
+                <th>Function Name</th>
+                <th>File</th>
+                <th>Line Number</th>
             </tr>
-            <!-- #student-form form -->
+        </thead>
+        <tbody>
+            <!-- Unused functions will be populated here by JavaScript -->
+        </tbody>
+    </table>
+    <h2>Hidden Elements</h2>
+    <table id="hidden-elements-table">
+        <thead>
             <tr>
-                <td>#student-form</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
+                <th>Element ID/Class</th>
+                <th>Hidden By</th>
+                <th>File</th>
+                <th>Line Number</th>
             </tr>
-            <!-- #student-names textarea -->
-            <tr>
-                <td>#student-names</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #fetch-students button -->
-            <tr>
-                <td>#fetch-students</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #fill-example-students button -->
-            <tr>
-                <td>#fill-example-students</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #settings-button button -->
-            <tr>
-                <td>#settings-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #file-input input -->
-            <tr>
-                <td>#file-input</td>
-                <td></td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #reset-button button -->
-            <tr>
-                <td>#reset-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #settings-section section -->
-            <tr>
-                <td>#settings-section</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #add-group-button button -->
-            <tr>
-                <td>#add-group-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #add-student-button button -->
-            <tr>
-                <td>#add-student-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #add-row-button button -->
-            <tr>
-                <td>#add-row-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #remove-row-button button -->
-            <tr>
-                <td>#remove-row-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #num-rows input -->
-            <tr>
-                <td>#num-rows</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #num-cols input -->
-            <tr>
-                <td>#num-cols</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #apply-settings button -->
-            <tr>
-                <td>#apply-settings</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #generate-seating section -->
-            <tr>
-                <td>#generate-seating</td>
-                <td></td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #generate-button button -->
-            <tr>
-                <td>#generate-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #groups-button button -->
-            <tr>
-                <td>#groups-button</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #toggle-advanced-requirements button -->
-            <tr>
-                <td>#toggle-advanced-requirements</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #sit-two-by-two checkbox -->
-            <tr>
-                <td>#sit-two-by-two</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #groups-section section -->
-            <tr>
-                <td>#groups-section</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #seating-style input -->
-            <tr>
-                <td>#seating-style</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #advanced-requirements section -->
-            <tr>
-                <td>#advanced-requirements</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #front-row-students textarea -->
-            <tr>
-                <td>#front-row-students</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #back-row-students textarea -->
-            <tr>
-                <td>#back-row-students</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #together-students textarea -->
-            <tr>
-                <td>#together-students</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #apart-students textarea -->
-            <tr>
-                <td>#apart-students</td>
-                <td>style.css</td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #export-section section -->
-            <tr>
-                <td>#export-section</td>
-                <td></td>
-                <td></td>
-                <td>index.html</td>
-            </tr>
-            <!-- #export-pdf button -->
-            <tr>
-                <td>#export-pdf</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #editable-title h2 -->
-            <tr>
-                <td>#editable-title</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #editable-room-number h3 -->
-            <tr>
-                <td>#editable-room-number</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #seating-chart section -->
-            <tr>
-                <td>#seating-chart</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #kateter-cell div -->
-            <tr>
-                <td>#kateter-cell</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
-            <!-- #kateter-text input -->
-            <tr>
-                <td>#kateter-text</td>
-                <td>style.css</td>
-                <td>script.js</td>
-                <td>index.html</td>
-            </tr>
+        </thead>
+        <tbody>
+            <!-- Hidden elements will be populated here by JavaScript -->
         </tbody>
     </table>
     <div class="note">
         <p><strong>Note:</strong> This table maps the elements in the HTML file to their corresponding CSS and JavaScript files. This helps in understanding the connections and dependencies between the files, making it easier to maintain and update the codebase.</p>
     </div>
+    <h2>Tips and Tricks for Debugging</h2>
+    <div class="note">
+        <p><strong>Start with:</strong></p>
+        <ul>
+            <li>Check the console for any JavaScript errors.</li>
+            <li>Ensure all referenced IDs and classes are unique.</li>
+            <li>Verify that all CSS and JavaScript files are correctly linked.</li>
+            <li>Use browser developer tools to inspect elements and debug issues.</li>
+        </ul>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = [
+                { id: '#toggle-sidebar', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Toggles the sidebar visibility.' },
+                { id: '#menu-placeholder', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Placeholder for the menu content.' },
+                { id: '#student-form', css: 'style.css', js: '', html: 'index.html', description: 'Form for entering student names.' },
+                { id: '#student-names', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Textarea for entering student names.' },
+                { id: '#fetch-students', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to fetch students from a file.' },
+                { id: '#fill-example-students', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to fill example students.' },
+                { id: '#settings-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle settings section.' },
+                { id: '#file-input', css: '', js: 'script.js', html: 'index.html', description: 'File input for uploading student names.' },
+                { id: '#reset-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to reset the seating chart.' },
+                { id: '#settings-section', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Section for settings.' },
+                { id: '#add-group-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to add a new group.' },
+                { id: '#add-student-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to add a new student.' },
+                { id: '#add-row-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to add a new row.' },
+                { id: '#remove-row-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to remove a row.' },
+                { id: '#num-rows', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Input for number of rows.' },
+                { id: '#num-cols', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Input for number of columns.' },
+                { id: '#apply-settings', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to apply settings.' },
+                { id: '#generate-seating', css: '', js: '', html: 'index.html', description: 'Section for generating seating chart.' },
+                { id: '#generate-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to generate seating chart.' },
+                { id: '#groups-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle help section.' },
+                { id: '#toggle-advanced-requirements', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle advanced requirements section.' },
+                { id: '#sit-two-by-two', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Checkbox for sitting two by two.' },
+                { id: '#groups-section', css: 'style.css', js: '', html: 'index.html', description: 'Section for help.' },
+                { id: '#seating-style', css: 'style.css', js: '', html: 'index.html', description: 'Input for seating style.' },
+                { id: '#advanced-requirements', css: 'style.css', js: '', html: 'index.html', description: 'Section for advanced requirements.' },
+                { id: '#front-row-students', css: 'style.css', js: '', html: 'index.html', description: 'Textarea for students who should sit in the front row.' },
+                { id: '#back-row-students', css: 'style.css', js: '', html: 'index.html', description: 'Textarea for students who should sit in the back row.' },
+                { id: '#together-students', css: 'style.css', js: '', html: 'index.html', description: 'Textarea for students who should sit together.' },
+                { id: '#apart-students', css: 'style.css', js: '', html: 'index.html', description: 'Textarea for students who should not sit together.' },
+                { id: '#export-section', css: '', js: '', html: 'index.html', description: 'Section for exporting the seating chart.' },
+                { id: '#export-pdf', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to export the seating chart as PDF.' },
+                { id: '#editable-title', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Editable title for the seating chart.' },
+                { id: '#editable-room-number', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Editable room number for the seating chart.' },
+                { id: '#seating-chart', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Container for the seating chart.' },
+                { id: '#kateter-cell', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Cell for the teacher\'s desk.' },
+                { id: '#kateter-text', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Input for the teacher\'s desk label.' },
+                { id: '#toggle-fixed-settings', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle fixed settings.' },
+                { id: '#fixed-settings', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Container for fixed settings.' },
+                { id: '#toggle-generate-seating-heading', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle generate seating heading.' },
+                { id: '#toggle-visibility-button', css: 'style.css', js: 'script.js', html: 'index.html', description: 'Button to toggle visibility of grid lines.' }
+            ];
+
+            const correctTableBody = document.querySelector('table tbody');
+            const errorTableBody = document.querySelector('#error-table tbody');
+            const unusedFunctionsTableBody = document.querySelector('#unused-functions-table tbody');
+            const hiddenElementsTableBody = document.querySelector('#hidden-elements-table tbody');
+            const ids = new Set();
+            const errors = [];
+            const unusedFunctions = [];
+            const hiddenElements = [];
+
+            elements.forEach(element => {
+                if (ids.has(element.id)) {
+                    errors.push({ id: element.id, message: 'Duplicate ID', type: 'warning' });
+                } else {
+                    ids.add(element.id);
+                }
+
+                if (!element.css && !element.js) {
+                    errors.push({ id: element.id, message: 'Missing CSS and JavaScript references', type: 'error' });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${element.id}</td>
+                        <td>${element.css}</td>
+                        <td>${element.js}</td>
+                        <td>${element.html}</td>
+                        <div class="dropdown-info">
+                            <p>${element.description}</p>
+                            <p><a href="${element.css}" target="_blank">CSS: ${element.css}</a></p>
+                            <p><a href="${element.js}" target="_blank">JS: ${element.js}</a></p>
+                            <p><a href="${element.html}" target="_blank">HTML: ${element.html}</a></p>
+                        </div>
+                    `;
+                    row.addEventListener('click', () => {
+                        row.classList.toggle('locked');
+                    });
+                    correctTableBody.appendChild(row);
+                }
+            });
+
+            errors.forEach(error => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${error.id}</td>
+                    <td class="${error.type}">${error.message}</td>
+                `;
+                errorTableBody.appendChild(row);
+            });
+
+            // Check for unused functions
+            const scriptContent = document.querySelector('script[src="script.js"]').textContent;
+            const functionNames = scriptContent.match(/function\s+(\w+)/g).map(fn => fn.replace('function ', ''));
+            functionNames.forEach(fn => {
+                if (!scriptContent.includes(`${fn}(`)) {
+                    unusedFunctions.push({ name: fn, file: 'script.js', line: scriptContent.split('\n').findIndex(line => line.includes(`function ${fn}`)) + 1 });
+                }
+            });
+
+            unusedFunctions.forEach(fn => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fn.name}</td>
+                    <td>${fn.file}</td>
+                    <td>${fn.line}</td>
+                    <div class="dropdown-info">
+                        <p>Function ${fn.name} is defined but not used.</p>
+                        <p><a href="${fn.file}" target="_blank">File: ${fn.file}</a></p>
+                        <p>Line: ${fn.line}</p>
+                    </div>
+                `;
+                row.addEventListener('click', () => {
+                    row.classList.toggle('locked');
+                });
+                unusedFunctionsTableBody.appendChild(row);
+            });
+
+            // Check for hidden elements
+            const cssContent = document.querySelector('link[href="style.css"]').sheet.cssRules;
+            Array.from(cssContent).forEach((rule, index) => {
+                if (rule.selectorText && rule.style.display === 'none') {
+                    hiddenElements.push({ id: rule.selectorText, hiddenBy: 'CSS', file: 'style.css', line: index + 1 });
+                }
+            });
+
+            const scriptLines = scriptContent.split('\n');
+            scriptLines.forEach((line, index) => {
+                if (line.includes('.classList.add(\'hidden\')') || line.includes('.classList.toggle(\'hidden\')')) {
+                    const elementId = line.match(/document\.getElementById\('([^']+)'\)/);
+                    if (elementId) {
+                        hiddenElements.push({ id: `#${elementId[1]}`, hiddenBy: 'JavaScript', file: 'script.js', line: index + 1 });
+                    }
+                }
+            });
+
+            const htmlContent = document.documentElement.outerHTML.split('\n');
+            htmlContent.forEach((line, index) => {
+                if (line.includes('class="hidden"')) {
+                    const elementId = line.match(/id="([^"]+)"/);
+                    if (elementId) {
+                        hiddenElements.push({ id: `#${elementId[1]}`, hiddenBy: 'HTML', file: 'index.html', line: index + 1 });
+                    }
+                }
+            });
+
+            hiddenElements.forEach(element => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${element.id}</td>
+                    <td>${element.hiddenBy}</td>
+                    <td><a href="${element.file}" target="_blank">${element.file}</a></td>
+                    <td>${element.line}</td>
+                `;
+                hiddenElementsTableBody.appendChild(row);
+            });
+
+            window.onerror = function(message, source, lineno, colno, error) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>JavaScript Error</td>
+                    <td class="error">${message} at ${source}:${lineno}:${colno}</td>
+                `;
+                errorTableBody.appendChild(row);
+            };
+        });
+    </script>
 </body>
 </html>
