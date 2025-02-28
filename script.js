@@ -683,15 +683,13 @@ document.addEventListener('DOMContentLoaded', () => {
         students = names;
         localStorage.setItem('students', JSON.stringify(students));
 
-        // Bruk innstillinger fra num-rows og num-cols
-        totalRows = parseInt(numRowsInput.value);
-        totalCols = parseInt(numColsInput.value);
+        // Dynamically adjust the grid size based on the number of students
+        totalRows = calculateRowsNeeded(students.length, totalCols);
+        totalCols = calculateColsNeeded(students.length, totalRows);
         kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
 
         const seatingStyle = parseInt(seatingStyleInput.value);
         const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
-        // Kommenter ut den automatiske justeringen basert på antall elever
-        // adjustGridForStudents(students.length, seatingStyle);
         seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
 
         renderEmptyGrid(); // Render det justerte gridet
