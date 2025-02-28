@@ -64,7 +64,8 @@
                 <button id="generate-button" class="button" type="button">Oppdater klassekart</button>
                 <button id="reset-button" class="button" type="button">Nullstill klassekart</button> <!-- Moved reset-button here -->
                 <input type="file" id="file-input" accept=".txt" style="display: none;">
-                <button id="toggle-generate-seating-heading" class="button" type="button">Tips</button>
+                <button id="toggle-pedagogical-considerations" class="button" type="button">Pedagogiske vurderinger</button> <!-- New button -->
+                <button id="toggle-generate-seating-heading" class="button" type="button">Tekniske tips</button>
             </div>
 
         </form>
@@ -125,7 +126,7 @@
             <textarea id="apart-students" rows="3" placeholder="Skriv inn navnene på elevene, én per linje"></textarea>
         </section>
 
-        <section id="export-section" aria-labelledby="export-heading">
+        <section id="export-section" class="hidden" aria-labelledby="export-heading"> <!-- Add hidden class initially -->
             <div class="text" id="pedagogiske-tips"></div> <h1>Pedagogiske vurderinger</h1> </div>
             <p>Når vi skal plassere elevene i klasserommet eller dele inn i grupper er det flere ting vi bør tenke på.</p>
             <br>
@@ -222,6 +223,13 @@
 
             toggleGenerateSeatingHeadingButton.addEventListener('click', () => {
                 generateSeatingSection.classList.toggle('hidden');
+            });
+
+            const togglePedagogicalConsiderationsButton = document.getElementById('toggle-pedagogical-considerations');
+            const exportSection = document.getElementById('export-section');
+
+            togglePedagogicalConsiderationsButton.addEventListener('click', () => {
+                exportSection.classList.toggle('hidden');
             });
 
             const toggleVisibilityButton = document.getElementById('toggle-visibility-button');
