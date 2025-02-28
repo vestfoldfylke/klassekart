@@ -826,3 +826,7 @@ label[for="sit-two-by-two"] {
     display: none;
     border: none;
 }
+
+.button-invite {
+    cursor: pointer;
+}
