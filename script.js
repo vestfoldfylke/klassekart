@@ -601,18 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mouseup', stopDrag);
     }
 
-    // Sørg for at gridet er rendret og fylt med data før utskrift
-    window.addEventListener('beforeprint', () => {
-        renderEmptyGrid();
-        loadCurrentGrid();
-    });
-
-    // Sørg for at gridet er rendret og fylt med data etter utskrift
-    window.addEventListener('afterprint', () => {
-        renderEmptyGrid();
-        loadCurrentGrid();
-    });
-
     // Legg til event listener for å legge til rad
     addRowButton.addEventListener('click', () => {
         const currentGridData = saveCurrentGridData(); // Lagre nåværende grid-data
