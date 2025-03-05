@@ -192,25 +192,26 @@
 
                 if (!element.css && !element.js) {
                     errors.push({ id: element.id, message: 'Missing CSS and JavaScript references', type: 'error' });
-                } else {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${element.id}</td>
-                        <td>${element.css}</td>
-                        <td>${element.js}</td>
-                        <td>${element.html}</td>
-                        <div class="dropdown-info">
-                            <p>${element.description}</p>
-                            <p><a href="${element.css}" target="_blank">CSS: ${element.css}</a></p>
-                            <p><a href="${element.js}" target="_blank">JS: ${element.js}</a></p>
-                            <p><a href="${element.html}" target="_blank">HTML: ${element.html}</a></p>
-                        </div>
-                    `;
-                    row.addEventListener('click', () => {
-                        row.classList.toggle('locked');
-                    });
-                    correctTableBody.appendChild(row);
+                    return;
                 }
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${element.id}</td>
+                    <td>${element.css}</td>
+                    <td>${element.js}</td>
+                    <td>${element.html}</td>
+                    <div class="dropdown-info">
+                        <p>${element.description}</p>
+                        <p><a href="${element.css}" target="_blank">CSS: ${element.css}</a></p>
+                        <p><a href="${element.js}" target="_blank">JS: ${element.js}</a></p>
+                        <p><a href="${element.html}" target="_blank">HTML: ${element.html}</a></p>
+                    </div>
+                `;
+                row.addEventListener('click', () => {
+                    row.classList.toggle('locked');
+                });
+                correctTableBody.appendChild(row);
             });
 
             errors.forEach(error => {
@@ -259,21 +260,35 @@
 
             const scriptLines = scriptContent.split('\n');
             scriptLines.forEach((line, index) => {
-                if (line.includes('.classList.add(\'hidden\')') || line.includes('.classList.toggle(\'hidden\')')) {
-                    const elementId = line.match(/document\.getElementById\('([^']+)'\)/);
-                    if (elementId) {
-                        hiddenElements.push({ id: `#${elementId[1]}`, hiddenBy: 'JavaScript', file: 'script.js', line: index + 1 });
-                    }
+                if (!(line.includes('.classList.add(\'hidden\')') || line.includes('.classList.toggle(\'hidden\')'))) {
+                    return;
+                }
+                
+                const elementId = line.match(/document\.getElementById\('([^']+)'\)/);
+                if (elementId) {
+                    hiddenElements.push({
+                        id: `#${elementId[1]}`,
+                        hiddenBy: 'JavaScript',
+                        file: 'script.js',
+                        line: index + 1
+                    });
                 }
             });
 
             const htmlContent = document.documentElement.outerHTML.split('\n');
             htmlContent.forEach((line, index) => {
-                if (line.includes('class="hidden"')) {
-                    const elementId = line.match(/id="([^"]+)"/);
-                    if (elementId) {
-                        hiddenElements.push({ id: `#${elementId[1]}`, hiddenBy: 'HTML', file: 'index.html', line: index + 1 });
-                    }
+                if (!line.includes('class="hidden"')) {
+                    return;
+                }
+                
+                const elementId = line.match(/id="([^"]+)"/);
+                if (elementId) {
+                    hiddenElements.push({
+                        id: `#${elementId[1]}`,
+                        hiddenBy: 'HTML',
+                        file: 'index.html',
+                        line: index + 1
+                    });
                 }
             });
 

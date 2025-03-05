@@ -397,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         createResizers();
     }
-    
 
     // Legg til event listener for å legge til elev
     addStudentButton.addEventListener('click', () => {
