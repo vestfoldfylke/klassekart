@@ -56,12 +56,20 @@
             <br>
             <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
             <p>Velg kun en av disse:</p>
-            <label for="sit-two-by-two">
-                <input type="checkbox" id="sit-two-by-two" />
-                Skal elevene sitte to og to
-            </label>
-            <label for="seating-style">eller i grupper med </label>
-            <input type="number" id="seating-style" min="1" value="1" /> elever pr gruppe?
+            <div class="paragraph">
+                <div class="seating-options">
+                    <label for="seating-option">Velg sitteordning</label>
+                    <select id="seating-option" name="seating-option">
+                        <option value="">Velg sitteordning</option>
+                        <option value="2">To og to</option>
+                        <option value="3">Tre og tre</option>
+                        <option value="4">Fire og fire</option>
+                    </select>
+                </div>
+                <br>
+                <label for="seating-style">eller i grupper med </label>
+                <input type="number" id="seating-style" min="1" value="1" /> elever pr gruppe?
+            </div>
             <br>
             <br>
             <h2>Steg 2: Elevenes navn</h2>

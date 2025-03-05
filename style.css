@@ -417,7 +417,7 @@ section h2 {
     min-height: 50px;
     min-width: 150px; /* Øk bredde for å passe to elever side om side */
     display: flex;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
     justify-content: space-between;
     padding: var(--spacing-small);
     position: relative;
@@ -641,14 +641,18 @@ h3#editable-room-number {
     margin-left: 1rem; /* Legg til litt margin til venstre for knappen */
 }
 
-label[for="sit-two-by-two"] {
+/*label[for="sit-two-by-two"] {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Legg til litt plass mellom avkrysningsboksen og teksten */
+    gap: 0.5rem; !* Legg til litt plass mellom avkrysningsboksen og teksten *!
 }
 
 #sit-two-by-two {
-    transform: scale(1.2); /* Juster skalaen for å matche tekststørrelsen */
+    transform: scale(1.2); !* Juster skalaen for å matche tekststørrelsen *!
+}*/
+
+.seating-options {
+    margin-top: 1rem;
 }
 
 #settings-button {
@@ -755,7 +759,7 @@ label[for="sit-two-by-two"] {
         min-height: 50px !important;
         min-width: 150px !important;
         padding: 0.5rem !important;
-        flex-wrap: wrap !important;
+        /*flex-wrap: wrap !important;*/
         justify-content: space-between !important;
     }
 
