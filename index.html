@@ -30,10 +30,10 @@
             <div class="button-group">
                 <label for="num-rows">Antall rader:</label>
                 <br>
-                <input type="number" id="num-rows" min="1" value="10">
+                <input type="number" id="num-rows" min="1" value="10" />
                 <br>
                 <label for="num-cols">Antall kolonner:</label>
-                <input type="number" id="num-cols" min="1" value="4">
+                <input type="number" id="num-cols" min="1" value="4" />
             </div>
             <div class="button-group">
                 <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
@@ -44,8 +44,8 @@
                 <button id="groups-button" class="button" type="button">Hjelp</button>
             </div>
         </div>
-        <form id="student-form" aria-labelledby="student-form-heading">
-            <h2 id="student-form-heading">Slik gjør du</h2>
+        <form id="student-form">
+            <h2>Slik gjør du</h2>
             <h4>For å lage et klassekart må du gjøre følgende:</h4>
             <p>1. Velg hvordan du ønsker å plassere elevene</p>
             <p>2. Skriv inn navnene på elevene i tekstboksen eller hent elever fra en fil med filtypen .txt-</p>
@@ -56,12 +56,19 @@
             <br>
             <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
             <p>Velg kun en av disse:</p>
-                <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to</label><label for="seating-style">eller i grupper med </label><input type="number" id="seating-style" min="1" value="1"> elever pr gruppe?
+            <label for="sit-two-by-two">
+                <input type="checkbox" id="sit-two-by-two" />
+                Skal elevene sitte to og to
+            </label>
+            <label for="seating-style">eller i grupper med </label>
+            <input type="number" id="seating-style" min="1" value="1" /> elever pr gruppe?
             <br>
             <br>
-            <h2 id="student-form-heading">Steg 2: Elevenes navn</h2>
+            <h2>Steg 2: Elevenes navn</h2>
             <br>
-            <label for="student-names"><h4>Skriv navnene til elevene (ett navn pr linje)</h4></label>
+            <h4>
+                <label for="student-names">Skriv navnene til elevene (ett navn pr linje)</label>
+            </h4>
             <textarea id="student-names" rows="5" placeholder="Skriv inn fornavnene på elevene, én per linje"></textarea>
             <div class="button-group">
                 <button id="fetch-students" class="button" type="button">Hent elever</button>
@@ -76,7 +83,7 @@
         </form>
         
         <section id="settings-section" class="collapsible" aria-labelledby="settings-heading" aria-hidden="true">
-            <h2 id="settings-heading">Bygg dit eget klasserom</h2>
+            <h2 id="settings-heading">Bygg ditt eget klasserom</h2>
             <!-- Remove buttons from here -->
             <br>
             <button id="apply-settings" class="button" type="button">Bruk</button>
@@ -84,17 +91,18 @@
 
         <section id="generate-seating" class="hidden" aria-labelledby="generate-seating-heading"> <!-- Add hidden class initially -->
             <h2 id="generate-seating-heading">Tekniske tips</h2> 
-            <h4>Gjør manuelle tilpasninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4>
+            <h4>Gjør manuelle tilpassninger i klassekartet, du finner klassekartet litt lenger ned på siden.</h4>
             <p>OBS: Hvis du gjør manuelle endringer i klassekartet, vil knappen "Oppdater klassekart" endre oppsettet til det som er valgt i Steg 1.</p> 
             <br>
             <h4>Valgmuligheter</h4>
-            <li>Flytt boksene ved å dra og slippe direkte i klassekartet</li>
-            <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Lag klassekart manuelt" (fungerer best dersom du legger elevene inn manuelt ved bruk av knappen Legg til elev)</li>
-            <li>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</li>
-            <li>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</li>
+            <ul>
+                <li>Flytt boksene ved å dra og slippe direkte i klassekartet</li>
+                <li>Legg til flere grupper, elever eller rader ved å bruke knappene under "Lag klassekart manuelt" (fungerer best dersom du legger elevene inn manuelt ved bruk av knappen Legg til elev)</li>
+                <li>Trykk på "Oppdater klassekart" for å generere klassekartet på nytt med valgte innstillinger</li>
+                <li>Teksten Klassekart, Romnummer, Elevens navn og Kateter kan endres ved å klikke på teksten</li>
+            </ul>
             <br>
-            <h4>Ta et skjermbilde for å lagre klassekartet
-            </h4>
+            <h4>Ta et skjermbilde for å lagre klassekartet</h4>
             <div class="button-group">
                 <a href="#advanced-requirements" id="toggle-advanced-requirements" class="button" aria-expanded="false" aria-controls="advanced-requirements">Avanserte krav</a>
             </div>
@@ -110,11 +118,13 @@
             <img src="LagreTXT.png" alt="lagre som .txt-fil i Word" width="400" height="350">
             <br>
             <h3>Kjente feil</h3>
-            <li>Når nettsiden oppdateres ved å bruke CTRL+F5 eller oppdaterknappen må klassekartet kan det være nødvendig å klikke på knappen "Nullstill klassekart"</li>
-            <li>Det er kun mulig å laste opp tekstfiler i filformatet .txt, se veiledning for hvordan du gjør dette via Word under knappen "Brukerveiledning" i venstremenyen</li>
-            <li>Utskrift av klassekartet fungerer ikke optimalt</li>
-            <li>Endring av antall rader og kolonner kan gjøre at klassekartet ikke ser så bra ut. Bruk knappen oppdater klassekart etter å ha gjort innstillinger slik at klassekartet blir oppdatert</li>
-            <li>Elever, grupper og bokser forsvinner fra klassekartet når du endrer antall rader og kolonner, trykk oppdater klassekart, da blir de synlige igjen, elever og grupper som er lagt inn manuelt forsvinner fra klassekartet</li>
+            <ul>
+                <li>Når nettsiden oppdateres ved å bruke CTRL+F5 eller oppdaterknappen, kan det være nødvendig å klikke på knappen "Nullstill klassekart"</li>
+                <li>Det er kun mulig å laste opp tekstfiler i filformatet .txt, se veiledning for hvordan du gjør dette via Word under knappen "Brukerveiledning" i venstremenyen</li>
+                <li>Utskrift av klassekartet fungerer ikke optimalt</li>
+                <li>Endring av antall rader og kolonner kan gjøre at klassekartet ikke ser så bra ut. Bruk knappen oppdater klassekart etter å ha gjort innstillinger slik at klassekartet blir oppdatert</li>
+                <li>Elever, grupper og bokser forsvinner fra klassekartet når du endrer antall rader og kolonner, trykk oppdater klassekart, da blir de synlige igjen, elever og grupper som er lagt inn manuelt forsvinner fra klassekartet</li>
+            </ul>
         </section>
 
         <section id="advanced-requirements" class="collapsible" aria-labelledby="advanced-requirements-heading" aria-hidden="true">
@@ -130,47 +140,64 @@
         </section>
 
         <section id="export-section" class="hidden" aria-labelledby="export-heading"> <!-- Add hidden class initially -->
-            <div class="text" id="pedagogiske-tips"></div> <h1>Pedagogiske vurderinger</h1> </div>
+            <h1>Pedagogiske vurderinger</h1>
             <p>Når vi skal plassere elevene i klasserommet eller dele inn i grupper er det flere ting vi bør tenke på.</p>
             <br>
             <p>Individuelle fokus, tilgang til læreren, behov for å sitte sammen med en venn eller sitte alene for å nevne noen områder.</p>
-            <p>Tenk spesielt på potensielle distrakasjoner, behov for personlig rom, samarbeid og balanse. 
+            <p>Tenk spesielt på potensielle distrakasjoner, behov for personlig rom, samarbeid og balanse.</p>
             <p>Husk at elevene har varierte ferdigheter og preferanser knyttet til kommunikasjon</p>
-            <p>Du finner flere tips og råd under nedenfor</p>
-            <p>Skoleprogrammet VIP Makkerskap skal gjøre elever bedre rustet til å ta vare på egen psykisk helse og skape et godt og trygt læringsmiljø. <href="https://www.vestfoldfylke.no/no/meny/tjenester/folkehelse/barnehager-og-skoler/ungdomsskoler/">Les mer om VIP Makkerskap programmet her</a></p>
+            <p>Du finner flere tips og råd nedenfor</p>
+            <p>
+                Skoleprogrammet VIP Makkerskap skal gjøre elever bedre rustet til å ta vare på egen psykisk helse og skape et godt og trygt læringsmiljø.
+                <a href="https://www.vestfoldfylke.no/no/meny/tjenester/folkehelse/barnehager-og-skoler/ungdomsskoler/">Les mer om VIP Makkerskap programmet her</a>
+            </p>
             <br>
-            <h2>Områder å være oppmersome på</h2>
-            <p><strong>Individuelle fokus</strong>
-                <li>Plasser elever som trenger ekstra hjelp i nærheten av læreren</p></li>
-                <li>Plasser elever som lett blir distrahert, lengst unna vinduer og dører.</p></li>
-                <li>Gi hver elev nok plass til å føle seg komfortabel og unngå å føle seg "låst".</p></li>
-                <li>Sørg for at alle elever har tilgang til deg for spørsmål og veiledning tilpasset behov.</p></li>
+            <h2>Områder å være oppmerksomme på</h2>
+            <div class="paragraph">
+                <strong>Individuelle fokus</strong>
+                <ul>
+                    <li>Plasser elever som trenger ekstra hjelp i nærheten av læreren</li>
+                    <li>Plasser elever som lett blir distrahert, lengst unna vinduer og dører.</li>
+                    <li>Gi hver elev nok plass til å føle seg komfortabel og unngå å føle seg "låst".</li>
+                    <li>Sørg for at alle elever har tilgang til deg for spørsmål og veiledning tilpasset behov.</li>
+                </ul>
                 <br>
-            <p><strong>Når elevene skal sitte to og to</strong></p>
-                <li>Ved å sitte to og to kan de hjelpe hverandre med å forstå vanskelige konsepter og gi tilbakemeldinger</p></li>
-                <li>Noen elever kan ha god nytte av å ha en makker som kan gi støtte og motivasjon, spesielt hvis de føler seg usikre eller trenger litt ekstra hjelp</li>
-                <li>Plasser elever sammen som kan samarbeide godt og støtte hverandre faglig.</p></li>
-                <li>Unngå å plassere to elever sammen som kan forstyrre hverandre eller som har en historie med konflikter, dette kan endre seg rask,  vær oppmerksom på endringer i klassemiljøet.</p></li>
-                <li>Kombiner elever med ulike styrker for å fremme læring og samarbeid.</p></li>
-                <li>Forsøk å ha makkerpar med kommunikasjonsstiler som ikke forstyrrer andre. Kommunikasjonsstilene kan være svært annerledes når de er to og to enn når de jobber alene</p></li>
+            </div>
+            <div class="paragraph">
+                <strong>Når elevene skal sitte to og to</strong>
+                <ul>
+                    <li>Ved å sitte to og to kan de hjelpe hverandre med å forstå vanskelige konsepter og gi tilbakemeldinger</li>
+                    <li>Noen elever kan ha god nytte av å ha en makker som kan gi støtte og motivasjon, spesielt hvis de føler seg usikre eller trenger litt ekstra hjelp</li>
+                    <li>Plasser elever sammen som kan samarbeide godt og støtte hverandre faglig.</li>
+                    <li>Unngå å plassere to elever sammen som kan forstyrre hverandre eller som har en historie med konflikter, dette kan endre seg rask,  vær oppmerksom på endringer i klassemiljøet.</li>
+                    <li>Kombiner elever med ulike styrker for å fremme læring og samarbeid.</li>
+                    <li>Forsøk å ha makkerpar med kommunikasjonsstiler som ikke forstyrrer andre. Kommunikasjonsstilene kan være svært annerledes når de er to og to enn når de jobber alene</li>
+                </ul>
                 <br>
-            <p><strong>Når elevene skal sitte i grupper</strong></p>
-                <li>Grupper med 3-4 elever kan være en god størrelse for samarbeid og diskusjon.</p></li>
-                <li>Grupper med 5-6 elever kan være en god størrelse for gruppearbeid og prosjekter.</p></li>
-                <li>Plasser grupper slik at de har nok plass til å jobbe sammen uten å forstyrre andre grupper.</p></li>
-                <li>Lag grupper som kan få muligheten til å sette seg et annet sted enn i klasserommet, slik at de som trenger ekstra støtte fra lærer får mulighet til arbeidsro og unngår eksterne forstyrrelser</p></li>
-                <li>Sørg for at hver gruppe har en blanding av ferdigheter og personligheter for å fremme samarbeid og læring.</p></li>
-                <li>Oppmuntre til at hver elev i gruppen har en tydelig rolle for å sikre at alle bidrar.</p></li>
-                <li>Bytt på gruppene jevnlig for å gi elevene mulighet til å samarbeide med ulike personer og lære av hverandre.</p></li>
-                <li>Plasser grupper slik at læreren enkelt kan bevege seg rundt og gi veiledning.</p></li>
+            </div>
+            <div class="paragraph">
+                <strong>Når elevene skal sitte i grupper</strong>
+                <ul>
+                    <li>Grupper med 3-4 elever kan være en god størrelse for samarbeid og diskusjon.</li>
+                    <li>Grupper med 5-6 elever kan være en god størrelse for gruppearbeid og prosjekter.</li>
+                    <li>Plasser grupper slik at de har nok plass til å jobbe sammen uten å forstyrre andre grupper.</li>
+                    <li>Lag grupper som kan få muligheten til å sette seg et annet sted enn i klasserommet, slik at de som trenger ekstra støtte fra lærer får mulighet til arbeidsro og unngår eksterne forstyrrelser</li>
+                    <li>Sørg for at hver gruppe har en blanding av ferdigheter og personligheter for å fremme samarbeid og læring.</li>
+                    <li>Oppmuntre til at hver elev i gruppen har en tydelig rolle for å sikre at alle bidrar.</li>
+                    <li>Bytt på gruppene jevnlig for å gi elevene mulighet til å samarbeide med ulike personer og lære av hverandre.</li>
+                    <li>Plasser grupper slik at læreren enkelt kan bevege seg rundt og gi veiledning.</li>
+                </ul>
                 <br>
+            </div>
             <h2>Tips til gruppeinndeling</h2>
-                <li>Bruk tilfeldige metoder som trekning eller digitale verktøy som for eksempel Klassekartbyggeren👷‍♂️ for å danne grupper. Dette kan fremme nye vennskap og samarbeid.</p></li>
-                <li>Del inn grupper basert på elevenes ferdigheter og interesser for å sikre at hver gruppe har en god balanse.</p></li>
-                <li>La elevene velge sine egne grupper av og til for å fremme trivsel og komfort.</p></li>
-                <li>Bytt på gruppene jevnlig for å gi elevene mulighet til å samarbeide med ulike personer og lære av hverandre.</p></li>
-                <li>Gi elevene mulighet til å gi tilbakemelding på gruppene og samarbeidet for å fremme læring og samarbeid.</p></li>
-                <li>Oppmuntre til at hver elev i gruppen har en tydelig rolle for å sikre at alle bidrar.</p></li>
+            <ul>
+                <li>Bruk tilfeldige metoder som trekning eller digitale verktøy som for eksempel Klassekartbyggeren👷‍♂️ for å danne grupper. Dette kan fremme nye vennskap og samarbeid.</li>
+                <li>Del inn grupper basert på elevenes ferdigheter og interesser for å sikre at hver gruppe har en god balanse.</li>
+                <li>La elevene velge sine egne grupper av og til for å fremme trivsel og komfort.</li>
+                <li>Bytt på gruppene jevnlig for å gi elevene mulighet til å samarbeide med ulike personer og lære av hverandre.</li>
+                <li>Gi elevene mulighet til å gi tilbakemelding på gruppene og samarbeidet for å fremme læring og samarbeid.</li>
+                <li>Oppmuntre til at hver elev i gruppen har en tydelig rolle for å sikre at alle bidrar.</li>
+            </ul>
             <div class="button-group">
                 <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
             </div>
@@ -178,8 +205,12 @@
         <br>
         <br>  
         <div class="editable-container">
-            <h2 id="editable-title" contenteditable="true" role="textbox" aria-multiline="true">Klassekart</h2>
-            <h3 id="editable-room-number" contenteditable="true" role="textbox" aria-multiline="true">Romnummer</h3>
+            <div id="editable-title" contenteditable="true" role="textbox" aria-multiline="true">
+                <h2>Klassekart</h2>
+            </div>
+            <div id="editable-room-number" contenteditable="true" role="textbox" aria-multiline="true">
+                <h3>Romnummer</h3>
+            </div>
         </div>
 
         <section id="seating-chart" aria-label="Seating chart">

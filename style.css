@@ -78,12 +78,11 @@
 
 /* HTML Elementer styling */
 body {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
     height: 100%;
     line-height: 1.4;
-    font-family: 'Nunito Sans', Lato, 'Trebuchet MS', sans-serif;
 }
 
 * {
@@ -130,7 +129,7 @@ button.big {
 }
 
 button.link {
-    padding: 0px;
+    padding: 0;
     background-color: inherit;
     border: none;
     text-decoration: underline;
@@ -139,7 +138,7 @@ button.link {
 
 button.link span {
     font-size: 18px;
-    padding: 0px 5px;
+    padding: 0 5px;
     vertical-align: middle !important;
 }
 
@@ -278,7 +277,7 @@ button:active, a.button:active {
 
 button.filled, a.button.filled, .button-input > button {
     background-color: var(--primary-color);
-    color: var (--font-color-inverted);
+    color: var(--font-color-inverted);
 }
 
 button.filled:hover, a.button.filled:hover, .button-input > button:hover {
@@ -821,7 +820,7 @@ label[for="sit-two-by-two"] {
 
 /* Ensure the following elements are hidden by default */
 .grid-resizer.horizontal,
-.grid-resizer.vertical,
+.grid-resizer.vertical
 {
     display: none;
     border: none;

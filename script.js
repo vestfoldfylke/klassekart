@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const applySettingsButton = document.getElementById('apply-settings');
     const numRowsInput = document.getElementById('num-rows');
     const numColsInput = document.getElementById('num-cols');
-    const exportSection = document.getElementById('export-section');
+    /*const exportSection = document.getElementById('export-section');*/
     const fixedSettings = document.getElementById('fixed-settings');
 
     // Legg til event listener for innstillinger-knappen
@@ -421,8 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funksjon for automatisk generering av klassekart
     function autoGenerateSeatingChart() {
-        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-        students = names;
+        students = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
         localStorage.setItem('students', JSON.stringify(students));
 
         const seatingStyle = parseInt(seatingStyleInput.value);
@@ -441,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         groupCounter = 1;
 
-        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
+        document.querySelectorAll('.seating-cell').forEach((cell) => {
             if (currentIndex >= shuffledStudents.length) return;
 
             if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
@@ -489,8 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.text())
             .then(data => {
                 studentTextarea.value = data.trim();
-                const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-                students = names;
+                students = studentTextarea.value.split('\n').map(name => name.trim()).filter(name => name);
                 localStorage.setItem('students', JSON.stringify(students));
 
                 // Juster grid-størrelse basert på antall elever
@@ -534,7 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pdf.rect(boxX, boxY, cellWidth, cellHeight);
             
             if (element.classList.contains('student-group')) {
-                const groupNameElem = element.querySelector('.group-header');
                 const lines = pdf.splitTextToSize(element.innerText, cellWidth - 10);
                 pdf.text(lines, boxX + 5, boxY + 25);
             } else if (element.classList.contains('student')) {
@@ -667,8 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Legg til event listener for å generere klassekart
     generateButton.addEventListener('click', () => {
-        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-        students = names;
+        students = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
         localStorage.setItem('students', JSON.stringify(students));
 
         // Dynamically adjust the grid size based on the number of students
@@ -691,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         groupCounter = 1;
 
-        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
+        document.querySelectorAll('.seating-cell').forEach((cell) => {
             if (currentIndex >= shuffledStudents.length) return;
 
             if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
@@ -832,6 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Log JavaScript errors to mapping.html
     window.onerror = function(message, source, lineno, colno, error) {
+        console.error(error);
         const errorTableBody = document.querySelector('#error-table tbody');
         if (errorTableBody) {
             const row = document.createElement('tr');

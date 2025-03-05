@@ -41,9 +41,9 @@
         .error {
             color: var(--error-color);
         }
-        .warning {
+        /*.warning {
             color: var(--warning-color);
-        }
+        }*/
         .dropdown-info {
             display: none;
             position: absolute;
@@ -315,6 +315,7 @@
             });
 
             window.onerror = function(message, source, lineno, colno, error) {
+                console.error(error);
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>JavaScript Error</td>
