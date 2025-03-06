@@ -335,11 +335,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (seatingNum > 0) {
                 const studentDiv = createStudent(shuffledStudents[currentIndex++]);
                 cell.appendChild(studentDiv);
-                console.log('adding child 0 with name:', studentDiv.innerText);
                 for (let i = 1; i < seatingNum; i++) {
                     if (currentIndex < shuffledStudents.length) {
                         const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
-                        console.log(`adding child ${i} with name:`, studentDiv2.innerText);
                         cell.appendChild(studentDiv2);
                     }
                 }
