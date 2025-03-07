@@ -575,13 +575,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const seatingChart = document.getElementById('seating-chart');
         const titleText = editableTitle.innerText.replaceAll(' ', '_');
         const roomNumberText = editableRoomNumber.innerText.replaceAll(' ', '_');
-        const filename = `Klassekart_${titleText}_${roomNumberText}.png`;
+        const filename = `Klassekart ${titleText}-${roomNumberText}.png`;
+
+        // Create a temporary container to hold the title and room number
+        const tempContainer = document.createElement('div');
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.top = '0';
+        tempContainer.style.left = '0';
+        tempContainer.style.width = '100%';
+        tempContainer.style.backgroundColor = 'white';
+        tempContainer.style.padding = '10px';
+        tempContainer.style.textAlign = 'left'; // Align text to the left
+        tempContainer.style.zIndex = '-1'; // Ensure it is behind other elements
+
+        const titleElement = document.createElement('h2');
+        titleElement.innerText = editableTitle.innerText;
+        tempContainer.appendChild(titleElement);
+
+        const roomNumberElement = document.createElement('h3');
+        roomNumberElement.innerText = editableRoomNumber.innerText;
+        tempContainer.appendChild(roomNumberElement);
+
+        document.body.appendChild(tempContainer);
 
         html2canvas(seatingChart).then(canvas => {
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = filename;
-            link.click();
+            const context = canvas.getContext('2d');
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height + tempContainer.offsetHeight;
+            const tempContext = tempCanvas.getContext('2d');
+
+            tempContext.fillStyle = 'white';
+            tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            tempContext.drawImage(canvas, 0, tempContainer.offsetHeight);
+
+            html2canvas(tempContainer).then(tempCanvas2 => {
+                tempContext.drawImage(tempCanvas2, 0, 0);
+
+                const link = document.createElement('a');
+                link.href = tempCanvas.toDataURL('image/png');
+                link.download = filename;
+                link.click();
+
+                document.body.removeChild(tempContainer);
+            });
         });
     }
 
