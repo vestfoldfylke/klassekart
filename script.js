@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const applySettingsButton = document.getElementById('apply-settings');
     const numRowsInput = document.getElementById('num-rows');
     const numColsInput = document.getElementById('num-cols');
-    const exportSection = document.getElementById('export-section');
+    /*const exportSection = document.getElementById('export-section');*/
     const fixedSettings = document.getElementById('fixed-settings');
 
     // Legg til event listener for innstillinger-knappen
@@ -111,15 +111,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const draggableElementId = e.dataTransfer.getData('text/plain');
         const dropZone = e.target.closest('.seating-cell, .student-group, .student-container');
         const draggableElement = document.getElementById(draggableElementId);
-        if (dropZone && draggableElement && dropZone !== draggableElement) {
-            if (dropZone.classList.contains('student-group')) {
-                dropZone.querySelector('.student-container').appendChild(draggableElement);
-            } else {
-                dropZone.appendChild(draggableElement);
-            }
-            draggableElement.classList.remove('dragging');
-            saveCurrentGrid();
+        draggableElement.classList.remove('dragging');
+
+        let dropZoneClientRect = dropZone.getBoundingClientRect();
+        // calculates the horizontal offset of the drop event within the dropZone element, adjusting by 5 pixels (which I believe is the mouse pointer width?)
+        const offsetX = e.clientX - dropZoneClientRect.left - 5;
+        // calculates the vertical offset of the drop event within the dropZone element, adjusting by 14 pixels (which I believe is the mouse pointer height?)
+        const offsetY = e.clientY - dropZoneClientRect.top - 14;
+        
+        draggableElement.style.position = 'absolute';
+        draggableElement.style.left = `${offsetX}px`;
+        draggableElement.style.top = `${offsetY}px`;
+        
+        if (dropZone.classList.contains('student-group')) {
+            dropZone.querySelector('.student-container').appendChild(draggableElement);
+        } else {
+            dropZone.appendChild(draggableElement);
         }
+        
+        // recalculate dropZone width and height based on the new element added and resize
+        const children = Array.from(dropZone.children);
+        const newWidth = Math.max(...children.map(child => child.getBoundingClientRect().right)) - dropZoneClientRect.left + 10;
+        const newHeight = Math.max(...children.map(child => child.getBoundingClientRect().bottom)) - dropZoneClientRect.top + 10;
+        dropZone.style.width = `${newWidth}px`;
+        dropZone.style.height = `${newHeight}px`;
+
+        // get updated client rect after resizing
+        dropZoneClientRect = dropZone.getBoundingClientRect();
+
+        let childIndex = 0;
+        for (const dropZoneChild of dropZone.children) {
+            if (dropZoneChild.style.position === 'absolute') {
+                continue;
+            }
+            const dropZoneChildClientRect = dropZoneChild.getBoundingClientRect();
+            dropZoneChild.style.position = 'absolute';
+            if (childIndex === 0) {
+                dropZoneChild.style.left = "var(--spacing-small)";
+            } else {
+                dropZoneChild.style.left = `${dropZoneChildClientRect.width}px`;
+            }
+            dropZoneChild.style.top = `${0}px`;
+            childIndex++;
+        }
+        
+        saveCurrentGrid();
     }
 
     // Funksjon for å håndtere dobbeltklikk på gruppe
@@ -315,6 +351,51 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Funksjon for å legge elever til grid
+    function addStudentsToCurrentGrid(seatingOption, seatingStyle) {
+        const seatingNum = seatingOption !== ''
+            ? parseInt(seatingOption, 10)
+            : 0;
+        
+        const shuffledStudents = shuffle(students.slice());
+        let currentIndex = 0;
+        groupCounter = 1;
+
+        document.querySelectorAll('.seating-cell').forEach((cell) => {
+            if (currentIndex >= shuffledStudents.length) return;
+
+            if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
+            if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
+
+            if (seatingNum > 0) {
+                const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                cell.appendChild(studentDiv);
+                for (let i = 1; i < seatingNum; i++) {
+                    if (currentIndex < shuffledStudents.length) {
+                        const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
+                        cell.appendChild(studentDiv2);
+                    }
+                }
+
+                return;
+            }
+
+            if (seatingStyle === 1) {
+                const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                cell.appendChild(studentDiv);
+
+                return;
+            }
+
+            const groupStudents = [];
+            for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
+                groupStudents.push(shuffledStudents[currentIndex]);
+            }
+            const group = createGroup(groupCounter++, groupStudents);
+            cell.appendChild(group);
+        });
+    }
 
     // Legg til event listener for å legge til gruppe
     addGroupButton.addEventListener('click', () => {
@@ -397,7 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         createResizers();
     }
-    
 
     // Legg til event listener for å legge til elev
     addStudentButton.addEventListener('click', () => {
@@ -421,12 +501,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funksjon for automatisk generering av klassekart
     function autoGenerateSeatingChart() {
-        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-        students = names;
-        localStorage.setItem('students', JSON.stringify(students));
-
         const seatingStyle = parseInt(seatingStyleInput.value);
-        const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
+        const seatingOption = document.getElementById('seating-option').value;
+
+        if (seatingOption === '' && seatingStyle <= 0) {
+            alert('Elever pr gruppe må være større enn 0.');
+            return;
+        }
+        
+        students = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        localStorage.setItem('students', JSON.stringify(students));
+        
         adjustGridForStudents(students.length, seatingStyle);
         seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
 
@@ -437,37 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const shuffledStudents = shuffle(students.slice());
-        let currentIndex = 0;
-        groupCounter = 1;
-
-        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
-            if (currentIndex >= shuffledStudents.length) return;
-
-            if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
-            if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
-
-            if (sitTwoByTwo) {
-                const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
-                cell.appendChild(studentDiv1);
-                if (currentIndex < shuffledStudents.length) {
-                    const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv2);
-                }
-            } else {
-                if (seatingStyle === 1) {
-                    const studentDiv = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv);
-                } else {
-                    const groupStudents = [];
-                    for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
-                        groupStudents.push(shuffledStudents[currentIndex]);
-                    }
-                    const group = createGroup(groupCounter++, groupStudents);
-                    cell.appendChild(group);
-                }
-            }
-        });
+        addStudentsToCurrentGrid(seatingOption, seatingStyle);
 
         // Ensure elements remain hidden after generating the seating chart
         const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
@@ -489,8 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.text())
             .then(data => {
                 studentTextarea.value = data.trim();
-                const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-                students = names;
+                students = studentTextarea.value.split('\n').map(name => name.trim()).filter(name => name);
                 localStorage.setItem('students', JSON.stringify(students));
 
                 // Juster grid-størrelse basert på antall elever
@@ -534,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pdf.rect(boxX, boxY, cellWidth, cellHeight);
             
             if (element.classList.contains('student-group')) {
-                const groupNameElem = element.querySelector('.group-header');
                 const lines = pdf.splitTextToSize(element.innerText, cellWidth - 10);
                 pdf.text(lines, boxX + 5, boxY + 25);
             } else if (element.classList.contains('student')) {
@@ -667,8 +720,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Legg til event listener for å generere klassekart
     generateButton.addEventListener('click', () => {
-        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-        students = names;
+        const seatingStyle = parseInt(seatingStyleInput.value);
+        const seatingOption = document.getElementById('seating-option').value;
+
+        if (seatingOption === '' && seatingStyle <= 0) {
+            alert('Elever pr gruppe må være større enn 0.');
+            return;
+        }
+        
+        students = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
         localStorage.setItem('students', JSON.stringify(students));
 
         // Dynamically adjust the grid size based on the number of students
@@ -676,8 +736,6 @@ document.addEventListener('DOMContentLoaded', () => {
         totalCols = calculateColsNeeded(students.length, totalRows);
         kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
 
-        const seatingStyle = parseInt(seatingStyleInput.value);
-        const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
         seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
 
         renderEmptyGrid(); // Render det justerte gridet
@@ -687,37 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const shuffledStudents = shuffle(students.slice());
-        let currentIndex = 0;
-        groupCounter = 1;
-
-        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
-            if (currentIndex >= shuffledStudents.length) return;
-
-            if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
-            if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
-
-            if (sitTwoByTwo) {
-                const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
-                cell.appendChild(studentDiv1);
-                if (currentIndex < shuffledStudents.length) {
-                    const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv2);
-                }
-            } else {
-                if (seatingStyle === 1) {
-                    const studentDiv = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv);
-                } else {
-                    const groupStudents = [];
-                    for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
-                        groupStudents.push(shuffledStudents[currentIndex]);
-                    }
-                    const group = createGroup(groupCounter++, groupStudents);
-                    cell.appendChild(group);
-                }
-            }
-        });
+        addStudentsToCurrentGrid(seatingOption, seatingStyle);
 
         saveCurrentGrid();
 
@@ -832,6 +860,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Log JavaScript errors to mapping.html
     window.onerror = function(message, source, lineno, colno, error) {
+        console.error(error);
         const errorTableBody = document.querySelector('#error-table tbody');
         if (errorTableBody) {
             const row = document.createElement('tr');
