@@ -338,11 +338,18 @@ textarea:focus-visible, input:focus-visible, select:focus-visible {
     outline-offset: -4px;
 }
 
-input[type="number"], input[type="text"], select {
+input[type="number"], select {
+    min-height: 2rem;
+    width: 4rem;
+    text-align: center;
+}
+
+input[type="text"], select {
     /* min-height: 2rem; */
     /* width: 4rem; */
     text-align: center;
 }
+
 textarea:focus-visible, input:focus-visible, select:focus-visible,
 #kateter-text:focus-visible,
 [contenteditable="true"]:focus-visible {
