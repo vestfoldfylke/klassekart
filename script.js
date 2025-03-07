@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalCols = 4; // Standard antall kolonner
     let totalRows = 4; // Standard antall rader inkludert kateter-raden
     let kateterRow = totalRows; // Plasser kateteret på nederste rad
-    const kateterColumn = 2; // Midterste kolonne for 3x3 grid
+    const kateterColumn = 2; // Velg standardplassering for kateter
 
     // Hent flere elementer fra DOM
     const settingsButton = document.getElementById('settings-button');
@@ -113,11 +113,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropZone = e.target.closest('.seating-cell, .student-group, .student-container');
         const draggableElement = document.getElementById(draggableElementId);
         if (dropZone && draggableElement && dropZone !== draggableElement) {
+            const dropZoneRect = dropZone.getBoundingClientRect();
+            const dropPosition = {
+                x: e.clientX - dropZoneRect.left,
+                y: e.clientY - dropZoneRect.top
+            };
+
             if (dropZone.classList.contains('student-group')) {
-                dropZone.querySelector('.student-container').appendChild(draggableElement);
+                const studentContainer = dropZone.querySelector('.student-container');
+                if (dropPosition.x > dropZoneRect.width / 2) {
+                    studentContainer.appendChild(draggableElement);
+                } else {
+                    studentContainer.insertBefore(draggableElement, studentContainer.firstChild);
+                }
             } else {
-                dropZone.appendChild(draggableElement);
+                const studentsInRow = Array.from(dropZone.children).filter(child => child.classList.contains('student'));
+                if (dropPosition.x > dropZoneRect.width / 2 && studentsInRow.length < 3) {
+                    dropZone.appendChild(draggableElement);
+                } else if (dropPosition.y > dropZoneRect.height / 2 && studentsInRow.length < 2) {
+                    dropZone.appendChild(draggableElement);
+                } else {
+                    dropZone.insertBefore(draggableElement, dropZone.firstChild);
+                }
             }
+
             draggableElement.classList.remove('dragging');
             saveCurrentGrid();
         }
@@ -201,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Juster gruppestørrelse basert på antall elever
         const baseHeight = 300; // Grunnhøyde for gruppen
-        const studentHeight = 50; // Høyde for hver elev
+        const studentHeight = 10; // Høyde for hver elev
         group.style.height = `${baseHeight + students.length * studentHeight}px`;
 
         return group;
