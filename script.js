@@ -111,15 +111,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const draggableElementId = e.dataTransfer.getData('text/plain');
         const dropZone = e.target.closest('.seating-cell, .student-group, .student-container');
         const draggableElement = document.getElementById(draggableElementId);
-        if (dropZone && draggableElement && dropZone !== draggableElement) {
-            if (dropZone.classList.contains('student-group')) {
-                dropZone.querySelector('.student-container').appendChild(draggableElement);
-            } else {
-                dropZone.appendChild(draggableElement);
-            }
-            draggableElement.classList.remove('dragging');
-            saveCurrentGrid();
+        draggableElement.classList.remove('dragging');
+
+        let dropZoneClientRect = dropZone.getBoundingClientRect();
+        // calculates the horizontal offset of the drop event within the dropZone element, adjusting by 5 pixels (which I believe is the mouse pointer width?)
+        const offsetX = e.clientX - dropZoneClientRect.left - 5;
+        // calculates the vertical offset of the drop event within the dropZone element, adjusting by 14 pixels (which I believe is the mouse pointer height?)
+        const offsetY = e.clientY - dropZoneClientRect.top - 14;
+        
+        draggableElement.style.position = 'absolute';
+        draggableElement.style.left = `${offsetX}px`;
+        draggableElement.style.top = `${offsetY}px`;
+        
+        if (dropZone.classList.contains('student-group')) {
+            dropZone.querySelector('.student-container').appendChild(draggableElement);
+        } else {
+            dropZone.appendChild(draggableElement);
         }
+        
+        // recalculate dropZone width and height based on the new element added and resize
+        const children = Array.from(dropZone.children);
+        const newWidth = Math.max(...children.map(child => child.getBoundingClientRect().right)) - dropZoneClientRect.left + 10;
+        const newHeight = Math.max(...children.map(child => child.getBoundingClientRect().bottom)) - dropZoneClientRect.top + 10;
+        dropZone.style.width = `${newWidth}px`;
+        dropZone.style.height = `${newHeight}px`;
+
+        // get updated client rect after resizing
+        dropZoneClientRect = dropZone.getBoundingClientRect();
+
+        let childIndex = 0;
+        for (const dropZoneChild of dropZone.children) {
+            if (dropZoneChild.style.position === 'absolute') {
+                continue;
+            }
+            const dropZoneChildClientRect = dropZoneChild.getBoundingClientRect();
+            dropZoneChild.style.position = 'absolute';
+            if (childIndex === 0) {
+                dropZoneChild.style.left = "var(--spacing-small)";
+            } else {
+                dropZoneChild.style.left = `${dropZoneChildClientRect.width}px`;
+            }
+            dropZoneChild.style.top = `${0}px`;
+            childIndex++;
+        }
+        
+        saveCurrentGrid();
     }
 
     // Funksjon for å håndtere dobbeltklikk på gruppe
