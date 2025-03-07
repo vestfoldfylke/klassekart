@@ -25,7 +25,6 @@
         <div id="fixed-settings" class="hidden"> <!-- Add hidden class initially -->
             <!-- Removed settings-button -->
 
-
             <!-- Move buttons from settings-section to fixed-settings -->
             <div class="button-group">
                 <label for="num-rows">Antall rader:</label>
@@ -71,6 +70,7 @@
                 <input type="file" id="file-input" accept=".txt" style="display: none;">
                 <button id="toggle-pedagogical-considerations" class="button" type="button">Pedagogiske vurderinger</button> <!-- New button -->
                 <button id="toggle-generate-seating-heading" class="button" type="button">Tekniske tips</button>
+                <button id="export-png" class="button" type="button">Last ned som bilde</button> <!-- Moved button here -->
             </div>
 
         </form>
@@ -173,6 +173,7 @@
                 <li>Oppmuntre til at hver elev i gruppen har en tydelig rolle for å sikre at alle bidrar.</p></li>
             <div class="button-group">
                 <button id="export-pdf" class="button" type="button">Eksporter som PDF</button>
+                <button id="export-png" class="button" type="button">Last ned som bilde</button> <!-- Ensure button is visible -->
             </div>
         </section>
         <br>
@@ -191,6 +192,7 @@
     </main>
     <script src="script.js"></script>
     <script src="jspdf.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('menu.html')
@@ -261,3 +263,4 @@
     </script>
 </body>
 </html>
+

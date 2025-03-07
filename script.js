@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleAdvancedRequirementsButton = document.getElementById('toggle-advanced-requirements');
     const advancedRequirementsSection = document.getElementById('advanced-requirements');
     const resetButton = document.getElementById('reset-button');
+    const exportPngButton = document.getElementById('export-png');
     let students = [];
     try {
         students = JSON.parse(localStorage.getItem('students')) || [];
@@ -549,6 +550,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         pdf.save(filename);
     });
+
+    // Function to export seating chart as PNG
+    function exportSeatingChartAsPng() {
+        const seatingChart = document.getElementById('seating-chart');
+        const titleText = editableTitle.innerText.replaceAll(' ', '_');
+        const roomNumberText = editableRoomNumber.innerText.replaceAll(' ', '_');
+        const filename = `Klassekart_${titleText}_${roomNumberText}.png`;
+
+        html2canvas(seatingChart).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = filename;
+            link.click();
+        });
+    }
+
+    // Add event listener for export PNG button
+    exportPngButton.addEventListener('click', exportSeatingChartAsPng);
 
     // Legg til event listener for å veksle avanserte krav
     toggleAdvancedRequirementsButton.addEventListener('click', () => {

@@ -659,6 +659,10 @@ label[for="sit-two-by-two"] {
     display: none;
 }
 
+#export-png {
+    display: block; /* Ensure the button is visible */
+}
+
 #fixed-settings {
     position: fixed;
     top: 10px;
