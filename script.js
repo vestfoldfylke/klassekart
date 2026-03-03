@@ -37,6 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const numColsInput = document.getElementById('num-cols');
     const exportSection = document.getElementById('export-section');
     const fixedSettings = document.getElementById('fixed-settings');
+    const showHorseshoeCheckbox = document.getElementById('show-horseshoe');
+    const horseshoeContainer = document.getElementById('horseshoe-container');
+    const horseshoeSettings = document.getElementById('horseshoe-settings');
+    const horseshoeLeftInput = document.getElementById('horseshoe-left');
+    const horseshoeBottomInput = document.getElementById('horseshoe-bottom');
+    const horseshoeRightInput = document.getElementById('horseshoe-right');
 
     // Legg til event listener for innstillinger-knappen
     if (settingsButton) {
@@ -742,70 +748,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Legg til event listener for å generere klassekart
     generateButton.addEventListener('click', () => {
-        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-        students = names;
-        localStorage.setItem('students', JSON.stringify(students));
-
-        // Dynamically adjust the grid size based on the number of students
-        totalRows = calculateRowsNeeded(students.length, totalCols);
-        totalCols = calculateColsNeeded(students.length, totalRows);
-        kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
-
-        const seatingStyle = parseInt(seatingStyleInput.value);
-        const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
-        seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
-
-        renderEmptyGrid(); // Render det justerte gridet
-
-        if (students.length === 0 && studentCounter === 0) {
-            alert('Vennligst registrer elevene først.');
-            return;
-        }
-
-        const shuffledStudents = shuffle(students.slice());
-        let currentIndex = 0;
-        groupCounter = 1;
-
-        document.querySelectorAll('.seating-cell').forEach((cell, index) => {
-            if (currentIndex >= shuffledStudents.length) return;
-
-            if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
-            if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
-
-            if (sitTwoByTwo) {
-                const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
-                cell.appendChild(studentDiv1);
-                if (currentIndex < shuffledStudents.length) {
-                    const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv2);
-                }
-            } else {
-                if (seatingStyle === 1) {
-                    const studentDiv = createStudent(shuffledStudents[currentIndex++]);
-                    cell.appendChild(studentDiv);
-                } else {
-                    const groupStudents = [];
-                    for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
-                        groupStudents.push(shuffledStudents[currentIndex]);
-                    }
-                    const group = createGroup(groupCounter++, groupStudents);
-                    cell.appendChild(group);
-                }
+        if (showHorseshoeCheckbox.checked) {
+            // Hestesko: stokker elevene vilkårlig, men beholder antall på hver side
+            let names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+            if (names.length === 0) {
+                names = JSON.parse(localStorage.getItem('students') || '[]');
             }
-        });
+            // Stokk rekkefølgen
+            const shuffled = shuffle(names);
+            localStorage.setItem('horseshoeOrder', JSON.stringify(shuffled));
+            renderHorseshoeLayout();
+        } else {
+            const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+            students = names;
+            localStorage.setItem('students', JSON.stringify(students));
 
-        saveCurrentGrid();
+            // Dynamically adjust the grid size based on the number of students
+            totalRows = calculateRowsNeeded(students.length, totalCols);
+            totalCols = calculateColsNeeded(students.length, totalRows);
+            kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
 
-        // Ensure elements remain hidden after generating the seating chart
-        const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
-        elements.forEach(element => {
-            element.classList.add('hidden-lines');
-        });
+            const seatingStyle = parseInt(seatingStyleInput.value);
+            const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
+            seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
 
-        const seatingCells = document.querySelectorAll('.seating-cell');
-        seatingCells.forEach(cell => {
-            cell.classList.add('hidden-border');
-        });
+            renderEmptyGrid(); // Render det justerte gridet
+
+            if (students.length === 0 && studentCounter === 0) {
+                alert('Vennligst registrer elevene først.');
+                return;
+            }
+
+            const shuffledStudents = shuffle(students.slice());
+            let currentIndex = 0;
+            groupCounter = 1;
+
+            document.querySelectorAll('.seating-cell').forEach((cell, index) => {
+                if (currentIndex >= shuffledStudents.length) return;
+
+                if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
+                if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
+
+                if (sitTwoByTwo) {
+                    const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
+                    cell.appendChild(studentDiv1);
+                    if (currentIndex < shuffledStudents.length) {
+                        const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
+                        cell.appendChild(studentDiv2);
+                    }
+                } else {
+                    if (seatingStyle === 1) {
+                        const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                        cell.appendChild(studentDiv);
+                    } else {
+                        const groupStudents = [];
+                        for (let j = 0; j < seatingStyle && currentIndex < shuffledStudents.length; j++, currentIndex++) {
+                            groupStudents.push(shuffledStudents[currentIndex]);
+                        }
+                        const group = createGroup(groupCounter++, groupStudents);
+                        cell.appendChild(group);
+                    }
+                }
+            });
+
+            saveCurrentGrid();
+
+            // Ensure elements remain hidden after generating the seating chart
+            const elements = document.querySelectorAll('.grid-resizer.horizontal, .grid-resizer.vertical, #seating-cell');
+            elements.forEach(element => {
+                element.classList.add('hidden-lines');
+            });
+
+            const seatingCells = document.querySelectorAll('.seating-cell');
+            seatingCells.forEach(cell => {
+                cell.classList.add('hidden-border');
+            });
+        }
     });
 
     // Legg til event listener for å redigere tittel
@@ -917,4 +935,210 @@ document.addEventListener('DOMContentLoaded', () => {
             errorTableBody.appendChild(row);
         }
     };
+
+    function renderHorseshoeLayout() {
+        horseshoeContainer.innerHTML = '';
+        horseshoeContainer.classList.remove('hidden');
+        seatingChartContainer.classList.add('hidden');
+
+        // Get students from textarea or localStorage
+        let names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        if (names.length === 0) {
+            names = JSON.parse(localStorage.getItem('students') || '[]');
+        }
+        if (names.length === 0) {
+            horseshoeContainer.innerHTML = '<p>Ingen elever registrert.</p>';
+            return;
+        }
+
+        // Calculate U-shape: left, bottom, right sides
+        const total = names.length;
+        let sideCount = parseInt(horseshoeLeftInput.value) || 0;
+        let bottomCount = parseInt(horseshoeBottomInput.value) || 0;
+        let rightCount = parseInt(horseshoeRightInput.value) || 0;
+        // Juster hvis summen ikke stemmer
+        if (sideCount + bottomCount + rightCount !== total) {
+            sideCount = Math.floor(total / 3);
+            bottomCount = total - sideCount * 2;
+            rightCount = sideCount;
+        }
+
+        // Drag-and-drop helpers for horseshoe
+        let horseshoeOrder = [];
+        const savedOrder = localStorage.getItem('horseshoeOrder');
+        if (savedOrder) {
+            const arr = JSON.parse(savedOrder);
+            // Bruk kun navn som finnes nå
+            horseshoeOrder = arr.filter(n => names.includes(n));
+            // Legg til eventuelle nye navn
+            names.forEach(n => { if (!horseshoeOrder.includes(n)) horseshoeOrder.push(n); });
+        } else {
+            horseshoeOrder = names.slice();
+        }
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.index);
+            e.target.classList.add('dragging');
+        }
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const toIndex = parseInt(e.target.dataset.index);
+            if (fromIndex === toIndex) return;
+            // Flytt i array
+            const moved = horseshoeOrder.splice(fromIndex, 1)[0];
+            horseshoeOrder.splice(toIndex, 0, moved);
+            // Lagre rekkefølge
+            localStorage.setItem('horseshoeOrder', JSON.stringify(horseshoeOrder));
+            // Render på nytt
+            renderHorseshoeLayoutWithOrder(horseshoeOrder);
+        }
+
+        function createStudentDiv(name, idx) {
+            const studentDiv = document.createElement('div');
+            studentDiv.className = 'student';
+            studentDiv.innerText = name;
+            studentDiv.draggable = true;
+            studentDiv.dataset.index = idx;
+            studentDiv.addEventListener('dragstart', handleDragStart);
+            studentDiv.addEventListener('dragend', handleDragEnd);
+            studentDiv.addEventListener('dragover', handleDragOver);
+            studentDiv.addEventListener('drop', handleDrop);
+            return studentDiv;
+        }
+
+        function renderHorseshoeLayoutWithOrder(order) {
+            horseshoeContainer.innerHTML = '';
+            const horseshoe = document.createElement('div');
+            horseshoe.style.display = 'flex';
+            horseshoe.style.flexDirection = 'row';
+            horseshoe.style.justifyContent = 'center';
+            horseshoe.style.alignItems = 'flex-end';
+            horseshoe.style.gap = '2rem';
+
+            // Left side
+            let sideCount = parseInt(horseshoeLeftInput.value) || 0;
+            let bottomCount = parseInt(horseshoeBottomInput.value) || 0;
+            let rightCount = parseInt(horseshoeRightInput.value) || 0;
+            const total = order.length;
+            if (sideCount + bottomCount + rightCount !== total) {
+                sideCount = Math.floor(total / 3);
+                bottomCount = total - sideCount * 2;
+                rightCount = sideCount;
+            }
+            const leftSide = document.createElement('div');
+            leftSide.style.display = 'flex';
+            leftSide.style.flexDirection = 'column';
+            leftSide.style.justifyContent = 'flex-end';
+            for (let i = 0; i < sideCount; i++) {
+                leftSide.appendChild(createStudentDiv(order[i], i));
+            }
+            horseshoe.appendChild(leftSide);
+
+            // Bottom side
+            const bottomSide = document.createElement('div');
+            bottomSide.style.display = 'flex';
+            bottomSide.style.flexDirection = 'row';
+            bottomSide.style.justifyContent = 'center';
+            for (let i = sideCount; i < sideCount + bottomCount; i++) {
+                bottomSide.appendChild(createStudentDiv(order[i], i));
+            }
+            horseshoe.appendChild(bottomSide);
+
+            // Right side
+            const rightSide = document.createElement('div');
+            rightSide.style.display = 'flex';
+            rightSide.style.flexDirection = 'column';
+            rightSide.style.justifyContent = 'flex-end';
+            for (let i = sideCount + bottomCount; i < sideCount + bottomCount + rightCount; i++) {
+                rightSide.appendChild(createStudentDiv(order[i], i));
+            }
+            horseshoe.appendChild(rightSide);
+
+            horseshoeContainer.appendChild(horseshoe);
+        }
+
+        renderHorseshoeLayoutWithOrder(horseshoeOrder);
+    }
+
+    showHorseshoeCheckbox.addEventListener('change', () => {
+        if (showHorseshoeCheckbox.checked) {
+            customizeHorseshoeBtn.style.display = '';
+            horseshoeSettings.classList.add('hidden');
+            horseshoeContainer.classList.remove('hidden');
+            seatingChartContainer.classList.add('hidden');
+            horseshoeContainer.innerHTML = '';
+            horseshoeLeftInput.value = '';
+            horseshoeBottomInput.value = '';
+            horseshoeRightInput.value = '';
+        } else {
+            customizeHorseshoeBtn.style.display = 'none';
+            horseshoeSettings.classList.add('hidden');
+            horseshoeContainer.classList.add('hidden');
+            horseshoeContainer.innerHTML = '';
+            seatingChartContainer.classList.remove('hidden');
+        }
+        localStorage.removeItem('horseshoeOrder');
+    });
+
+    const customizeHorseshoeBtn = document.getElementById('customize-horseshoe');
+    customizeHorseshoeBtn.addEventListener('click', () => {
+        horseshoeSettings.classList.toggle('hidden');
+        // Sett antall elever pr side/rad ut fra elevlisten hvis elevene er lastet inn
+        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        const total = names.length;
+        if (total > 0) {
+            const sideCount = Math.floor(total / 3);
+            const bottomCount = total - sideCount * 2;
+            horseshoeLeftInput.value = sideCount;
+            horseshoeBottomInput.value = bottomCount;
+            horseshoeRightInput.value = sideCount;
+        }
+    });
+
+    [horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput].forEach(input => {
+        input.addEventListener('input', () => {
+            if (showHorseshoeCheckbox.checked) {
+                renderHorseshoeLayout();
+            }
+        });
+    });
+
+    [horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput, studentTextarea].forEach(input => {
+        input.addEventListener('input', () => {
+            if (showHorseshoeCheckbox.checked) {
+                renderHorseshoeLayout();
+            }
+        });
+    });
+
+    function updateHorseshoeCounter() {
+        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        const total = names.length;
+        const left = parseInt(horseshoeLeftInput.value) || 0;
+        const bottom = parseInt(horseshoeBottomInput.value) || 0;
+        const right = parseInt(horseshoeRightInput.value) || 0;
+        const fordelt = left + bottom + right;
+        const gjenstar = total - fordelt;
+        const counterDiv = document.getElementById('horseshoe-counter');
+        counterDiv.textContent = `Plasser fordelt: ${fordelt} / ${total}  |  Gjenstår: ${gjenstar >= 0 ? gjenstar : 0}`;
+    }
+
+    [horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput, studentTextarea].forEach(input => {
+        input.addEventListener('input', () => {
+            if (showHorseshoeCheckbox.checked) {
+                updateHorseshoeCounter();
+            }
+        });
+    });
+    showHorseshoeCheckbox.addEventListener('change', () => {
+        if (showHorseshoeCheckbox.checked) {
+            updateHorseshoeCounter();
+        }
+    });
 });

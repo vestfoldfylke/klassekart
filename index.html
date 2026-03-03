@@ -33,6 +33,7 @@
                 <br>
                 <label for="num-cols">Antall kolonner:</label>
                 <input type="number" id="num-cols" min="1" value="4">
+        </div>
             </div>
             <div class="button-group">
                 <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
@@ -55,7 +56,17 @@
             <br>
             <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
             <p>Velg kun en av disse:</p>
-                <label for="sit-two-by-two"><input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to</label><label for="seating-style">eller i grupper med </label><input type="number" id="seating-style" min="1" value="1"> elever pr gruppe?
+            <label for="sit-two-by-two">
+                <input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to
+            </label>
+            <label for="show-horseshoe">
+                <input type="checkbox" id="show-horseshoe"> Vis som hestesko
+            </label>
+            <!-- hestesko-settings flyttes til under customize-horseshoe-knappen -->
+            <label for="seating-style" style="display:block;margin-top:0.5em;">
+                eller i grupper med 
+                <input type="number" id="seating-style" min="1" value="1"> elever pr gruppe?
+            </label>
             <br>
             <br>
             <h2 id="student-form-heading">Steg 2: Elevenes navn</h2>
@@ -72,6 +83,16 @@
                 <button id="toggle-generate-seating-heading" class="button" type="button">Tekniske tips</button>
                 <button id="export-png" class="button" type="button">Last ned som bilde</button> <!-- Moved button here -->
             </div>
+            <button id="customize-horseshoe" class="button" type="button" style="margin-left:0.5em;display:none;">Tilpass hestesko</button>
+                <div id="horseshoe-settings" class="hidden" style="margin-top:1em;">
+                    <label for="horseshoe-left">Antall på venstre side:</label>
+                    <input type="number" id="horseshoe-left" min="0" value="0">
+                    <label for="horseshoe-bottom">Antall på nederste rad:</label>
+                    <input type="number" id="horseshoe-bottom" min="0" value="0">
+                    <label for="horseshoe-right">Antall på høyre side:</label>
+                    <input type="number" id="horseshoe-right" min="0" value="0">
+                    <div id="horseshoe-counter"></div>
+                </div>
 
         </form>
         
@@ -189,6 +210,8 @@
             </div>
             <!-- Seating chart grid will be generated here -->
         </section>
+
+        <section id="horseshoe-container" class="hidden" aria-label="Hestesko visning"></section> <!-- New section for horseshoe view -->
     </main>
     <script src="script.js"></script>
     <script src="jspdf.js"></script>
@@ -263,6 +286,13 @@
             const seatingCells = document.querySelectorAll('.seating-cell');
             seatingCells.forEach(cell => {
                 cell.classList.add('hidden-border');
+            });
+
+            const showHorseshoeButton = document.getElementById('show-horseshoe-button');
+            const horseshoeContainer = document.getElementById('horseshoe-container');
+
+            showHorseshoeButton.addEventListener('click', () => {
+                horseshoeContainer.classList.toggle('hidden');
             });
         });
     </script>

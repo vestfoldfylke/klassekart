@@ -1,3 +1,17 @@
+#horseshoe-settings {
+    margin-top: 1em;
+}
+#show-horseshoe, #seating-style {
+    margin-top: 0.5em;
+    display: block;
+}
+#horseshoe-counter {
+    margin-top: 0.5em;
+    font-weight: bold;
+}
+#horseshoe-settings input[type="number"] {
+    width: 4em;
+}
 /* FELLES CSS */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400,1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap');
@@ -848,4 +862,24 @@ label[for="sit-two-by-two"] {
 #remove-row-button,
 #toggle-visibility-button {
     display: none;
+}
+
+#horseshoe-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: var(--secondary-color-10);
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.5rem;
+    min-height: 120px;
+}
+
+#horseshoe-container .student {
+    margin: 0.5rem;
+    cursor: grab;
+    transition: box-shadow 0.2s;
+}
+
+#horseshoe-container .student.dragging {
+    opacity: 0.6;
+    box-shadow: 0 0 10px #888;
 }
