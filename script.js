@@ -630,6 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to export seating chart as PNG
     function exportSeatingChartAsPng() {
         const seatingChart = document.getElementById('seating-chart');
+        const horseshoeContainer = document.getElementById('horseshoe-container');
         const titleText = editableTitle.innerText.replaceAll(' ', '_');
         const roomNumberText = editableRoomNumber.innerText.replaceAll(' ', '_');
         const filename = `Klassekart ${titleText}-${roomNumberText}.png`;
@@ -642,8 +643,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tempContainer.style.width = '100%';
         tempContainer.style.backgroundColor = 'white';
         tempContainer.style.padding = '10px';
-        tempContainer.style.textAlign = 'left'; // Align text to the left
-        tempContainer.style.zIndex = '-1'; // Ensure it is behind other elements
+        tempContainer.style.textAlign = 'left';
+        tempContainer.style.zIndex = '-1';
 
         const titleElement = document.createElement('h2');
         titleElement.innerText = editableTitle.innerText;
@@ -655,7 +656,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.appendChild(tempContainer);
 
-        html2canvas(seatingChart).then(canvas => {
+        // Velg riktig container å eksportere
+        let exportElement = seatingChart;
+        if (!horseshoeContainer.classList.contains('hidden')) {
+            exportElement = horseshoeContainer;
+        }
+
+        html2canvas(exportElement).then(canvas => {
             const context = canvas.getContext('2d');
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = canvas.width;
