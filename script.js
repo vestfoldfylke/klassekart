@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const customizeHorseshoeBtn = document.getElementById('customize-horseshoe');
     // Hent elementer fra DOM
     const studentTextarea = document.getElementById('student-names');
     const generateButton = document.getElementById('generate-button');
@@ -26,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Oppdater klassekartet automatisk når radioknappene endres og det finnes elever
     [sitOneByOneRadio, sitTwoByTwoRadio, showHorseshoeRadio, groupSeatingRadio].forEach(radio => {
         radio.addEventListener('change', () => {
+            // Vis/skjul Tilpass hestesko-knappen uansett
+            if (showHorseshoeRadio.checked) {
+                customizeHorseshoeBtn.style.display = '';
+            } else {
+                customizeHorseshoeBtn.style.display = 'none';
+            }
+            // Oppdater klassekart hvis det finnes elever
             const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
             if (names.length > 0) {
                 if (showHorseshoeRadio.checked) {
@@ -39,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    // Skjul Tilpass hestesko-knappen ved lasting hvis ikke hestesko er valgt
+    if (!showHorseshoeRadio.checked) {
+        customizeHorseshoeBtn.style.display = 'none';
+    }
     // Oppdater klassekartet når antall elever pr gruppe endres (kun hvis grupper er valgt)
     seatingStyleInput.addEventListener('change', () => {
         if (groupSeatingRadio.checked) {
@@ -495,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let seatingStyle = parseInt(seatingStyleInput.value);
         const sitOneByOne = document.getElementById('sit-one-by-one').checked;
         const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
-        // Hvis "en og en" er valgt, tving seatingStyle til 1
+        // Hvis "en og en" er valgt, tving seatingStyle til 1 og bruk kun én elev per plass
         if (sitOneByOne) {
             seatingStyle = 1;
         }
@@ -526,6 +538,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const studentDiv2 = createStudent(shuffledStudents[currentIndex++]);
                     cell.appendChild(studentDiv2);
                 }
+            } else if (sitOneByOne) {
+                // Alltid én elev per plass, aldri grupper
+                const studentDiv = createStudent(shuffledStudents[currentIndex++]);
+                cell.appendChild(studentDiv);
             } else {
                 if (seatingStyle === 1) {
                     const studentDiv = createStudent(shuffledStudents[currentIndex++]);
@@ -1155,7 +1171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('horseshoeOrder');
     });
 
-    const customizeHorseshoeBtn = document.getElementById('customize-horseshoe');
+    // customizeHorseshoeBtn er allerede deklarert øverst
     customizeHorseshoeBtn.addEventListener('click', () => {
         horseshoeSettings.classList.toggle('hidden');
         // Sett antall elever pr side/rad ut fra elevlisten hvis elevene er lastet inn

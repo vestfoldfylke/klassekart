@@ -33,9 +33,7 @@
                 <br>
                 <label for="num-cols">Antall kolonner:</label>
                 <input type="number" id="num-cols" min="1" value="4">
-        </div>
-            </div>
-            <div class="button-group">
+                <br>
                 <button id="add-group-button" class="button" type="button">Legg til gruppe</button>
                 <button id="add-student-button" class="button" type="button">Legg til elev</button>
                 <button id="add-row-button" class="button hidden" type="button">Legg til boks</button>
@@ -55,20 +53,26 @@
             <h4>Du finner flere valg via "Manuelle innstillinger" øverst i høyre hjørne</h4>
             <br>
             <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
-            <p>Velg kun en av disse:</p>
-            <label for="sit-two-by-two">
-            <label for="sit-one-by-one">
-                <input type="radio" name="seating-mode" id="sit-one-by-one" value="one-by-one" checked> Skal elevene sitte en og en
-            </label>
-                <input type="radio" name="seating-mode" id="sit-two-by-two" value="two-by-two"> Skal elevene sitte to og to
-            </label>
-            <label for="show-horseshoe">
-                <input type="radio" name="seating-mode" id="show-horseshoe" value="horseshoe"> Vis som hestesko
-            </label>
-            <label for="group-seating" style="display:block;margin-top:0.5em;">
-                <input type="radio" name="seating-mode" id="group-seating" value="groups"> i grupper med
-                <input type="number" id="seating-style" min="1" value="1" style="width:3em;display:inline-block;" disabled> elever pr gruppe
-            </label>
+            <p>Velg kun én av disse:</p>
+            <div class="seating-radio-group">
+                <label class="seating-radio-label" for="sit-one-by-one">
+                    <input type="radio" name="seating-mode" id="sit-one-by-one" value="one-by-one" checked>
+                    <span>En og en</span>
+                </label>
+                <label class="seating-radio-label" for="sit-two-by-two">
+                    <input type="radio" name="seating-mode" id="sit-two-by-two" value="two-by-two">
+                    <span>To og to</span>
+                </label>
+                <label class="seating-radio-label" for="show-horseshoe">
+                    <input type="radio" name="seating-mode" id="show-horseshoe" value="horseshoe">
+                    <span>Hestesko</span>
+                </label>
+                <label class="seating-radio-label group-radio" for="group-seating">
+                    <input type="radio" name="seating-mode" id="group-seating" value="groups">
+                    <span>Grupper med</span>
+                    <input type="number" id="seating-style" min="1" value="1" class="group-size-input" disabled> elever pr gruppe
+                </label>
+            </div>
             <br>
             <br>
             <h2 id="student-form-heading">Steg 2: Elevenes navn</h2>
