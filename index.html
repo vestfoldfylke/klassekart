@@ -57,15 +57,17 @@
             <h2>Steg 1: Hvordan ønsker du å plassere elevene?</h2>
             <p>Velg kun en av disse:</p>
             <label for="sit-two-by-two">
-                <input type="checkbox" id="sit-two-by-two"> Skal elevene sitte to og to
+            <label for="sit-one-by-one">
+                <input type="radio" name="seating-mode" id="sit-one-by-one" value="one-by-one" checked> Skal elevene sitte en og en
+            </label>
+                <input type="radio" name="seating-mode" id="sit-two-by-two" value="two-by-two"> Skal elevene sitte to og to
             </label>
             <label for="show-horseshoe">
-                <input type="checkbox" id="show-horseshoe"> Vis som hestesko
+                <input type="radio" name="seating-mode" id="show-horseshoe" value="horseshoe"> Vis som hestesko
             </label>
-            <!-- hestesko-settings flyttes til under customize-horseshoe-knappen -->
-            <label for="seating-style" style="display:block;margin-top:0.5em;">
-                eller i grupper med 
-                <input type="number" id="seating-style" min="1" value="1"> elever pr gruppe?
+            <label for="group-seating" style="display:block;margin-top:0.5em;">
+                <input type="radio" name="seating-mode" id="group-seating" value="groups"> i grupper med
+                <input type="number" id="seating-style" min="1" value="1" style="width:3em;display:inline-block;" disabled> elever pr gruppe
             </label>
             <br>
             <br>
