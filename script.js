@@ -4,16 +4,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateButton = document.getElementById('generate-button');
     const fillExampleButton = document.getElementById('fill-example-students');
     const seatingStyleInput = document.getElementById('seating-style');
-    const sitTwoByTwoCheckbox = document.getElementById('sit-two-by-two');
-    // Oppdater klassekartet automatisk når "Skal elevene sitte to og to" endres og det finnes elever
-    if (sitTwoByTwoCheckbox) {
-        sitTwoByTwoCheckbox.addEventListener('change', () => {
+    const sitOneByOneRadio = document.getElementById('sit-one-by-one');
+    const sitTwoByTwoRadio = document.getElementById('sit-two-by-two');
+    const showHorseshoeRadio = document.getElementById('show-horseshoe');
+    const groupSeatingRadio = document.getElementById('group-seating');
+
+    // Funksjon for å oppdatere input for antall elever pr gruppe
+    function updateGroupInputState() {
+        if (groupSeatingRadio.checked) {
+            seatingStyleInput.disabled = false;
+        } else {
+            seatingStyleInput.disabled = true;
+        }
+    }
+    // Koble radioknappene til funksjonen
+    [sitOneByOneRadio, sitTwoByTwoRadio, showHorseshoeRadio, groupSeatingRadio].forEach(radio => {
+        radio.addEventListener('change', updateGroupInputState);
+    });
+    updateGroupInputState();
+
+    // Oppdater klassekartet automatisk når radioknappene endres og det finnes elever
+    [sitOneByOneRadio, sitTwoByTwoRadio, showHorseshoeRadio, groupSeatingRadio].forEach(radio => {
+        radio.addEventListener('change', () => {
             const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
-            if (names.length > 0 && !showHorseshoeCheckbox.checked) {
-                autoGenerateSeatingChart();
+            if (names.length > 0) {
+                if (showHorseshoeRadio.checked) {
+                    renderHorseshoeLayout();
+                    updateHorseshoeCounter();
+                } else {
+                    seatingChartContainer.classList.remove('hidden');
+                    horseshoeContainer.classList.add('hidden');
+                    autoGenerateSeatingChart();
+                }
             }
         });
-    }
+    });
+    // Oppdater klassekartet når antall elever pr gruppe endres (kun hvis grupper er valgt)
+    seatingStyleInput.addEventListener('change', () => {
+        if (groupSeatingRadio.checked) {
+            autoGenerateSeatingChart();
+        }
+    });
     const seatingChartContainer = document.getElementById('seating-chart');
     const exportPdfButton = document.getElementById('export-pdf');
     const editableTitle = document.getElementById('editable-title');
@@ -461,12 +492,17 @@ document.addEventListener('DOMContentLoaded', () => {
         students = names;
         localStorage.setItem('students', JSON.stringify(students));
 
-        const seatingStyle = parseInt(seatingStyleInput.value);
+        let seatingStyle = parseInt(seatingStyleInput.value);
+        const sitOneByOne = document.getElementById('sit-one-by-one').checked;
         const sitTwoByTwo = document.getElementById('sit-two-by-two').checked;
+        // Hvis "en og en" er valgt, tving seatingStyle til 1
+        if (sitOneByOne) {
+            seatingStyle = 1;
+        }
         adjustGridForStudents(students.length, seatingStyle);
-        seatingChartContainer.innerHTML = ''; // Tøm tidligere klassekart før ny rendering
+        seatingChartContainer.innerHTML = '';
 
-        renderEmptyGrid(); // Render det justerte gridet
+        renderEmptyGrid();
 
         if (students.length === 0 && studentCounter === 0) {
             alert('Vennligst registrer elevene først.');
@@ -481,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentIndex >= shuffledStudents.length) return;
 
             if (parseInt(cell.dataset.row) === kateterRow && parseInt(cell.dataset.col) === kateterColumn) return;
-            if (parseInt(cell.dataset.row) === kateterRow) return; // Hopp over kateter-raden for elever
+            if (parseInt(cell.dataset.row) === kateterRow) return;
 
             if (sitTwoByTwo) {
                 const studentDiv1 = createStudent(shuffledStudents[currentIndex++]);
@@ -533,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalRows = Math.ceil(students.length / totalCols) + 1; // Legg til en ekstra rad for kateteret
                 kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
 
-                if (showHorseshoeCheckbox.checked) {
+                if (showHorseshoeRadio.checked) {
                     renderHorseshoeLayout();
                     updateHorseshoeCounter();
                 } else {
@@ -908,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 studentTextarea.value = e.target.result.trim();
-                if (showHorseshoeCheckbox.checked) {
+                if (showHorseshoeRadio.checked) {
                     renderHorseshoeLayout();
                     updateHorseshoeCounter();
                 } else {
@@ -1198,8 +1234,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    showHorseshoeCheckbox.addEventListener('change', () => {
-        if (showHorseshoeCheckbox.checked) {
+    // Oppdater hestesko-innstillinger når radioknappen for hestesko velges
+    showHorseshoeRadio.addEventListener('change', () => {
+        if (showHorseshoeRadio.checked) {
             updateHorseshoeCounter();
         }
     });
