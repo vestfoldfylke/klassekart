@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateButton = document.getElementById('generate-button');
     const fillExampleButton = document.getElementById('fill-example-students');
     const seatingStyleInput = document.getElementById('seating-style');
+    const sitTwoByTwoCheckbox = document.getElementById('sit-two-by-two');
+    // Oppdater klassekartet automatisk når "Skal elevene sitte to og to" endres og det finnes elever
+    if (sitTwoByTwoCheckbox) {
+        sitTwoByTwoCheckbox.addEventListener('change', () => {
+            const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+            if (names.length > 0 && !showHorseshoeCheckbox.checked) {
+                autoGenerateSeatingChart();
+            }
+        });
+    }
     const seatingChartContainer = document.getElementById('seating-chart');
     const exportPdfButton = document.getElementById('export-pdf');
     const editableTitle = document.getElementById('editable-title');
@@ -523,7 +533,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalRows = Math.ceil(students.length / totalCols) + 1; // Legg til en ekstra rad for kateteret
                 kateterRow = totalRows; // Oppdater kateterRow til den nye nederste raden
 
-                autoGenerateSeatingChart(); // Automatisk generering av klassekart
+                if (showHorseshoeCheckbox.checked) {
+                    renderHorseshoeLayout();
+                    updateHorseshoeCounter();
+                } else {
+                    autoGenerateSeatingChart(); // Automatisk generering av klassekart
+                }
             })
             .catch(error => {
                 console.error('Feil ved henting av eksempelelever:', error);
@@ -893,7 +908,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 studentTextarea.value = e.target.result.trim();
-                autoGenerateSeatingChart(); // Automatisk generering av klassekart
+                if (showHorseshoeCheckbox.checked) {
+                    renderHorseshoeLayout();
+                    updateHorseshoeCounter();
+                } else {
+                    autoGenerateSeatingChart(); // Automatisk generering av klassekart
+                }
             };
             reader.readAsText(file);
         }
@@ -1076,6 +1096,12 @@ document.addEventListener('DOMContentLoaded', () => {
             horseshoeLeftInput.value = '';
             horseshoeBottomInput.value = '';
             horseshoeRightInput.value = '';
+            // Oppdater hesteskokartet umiddelbart hvis det finnes elever
+            const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+            if (names.length > 0) {
+                renderHorseshoeLayout();
+                updateHorseshoeCounter();
+            }
         } else {
             customizeHorseshoeBtn.style.display = 'none';
             horseshoeSettings.classList.add('hidden');
