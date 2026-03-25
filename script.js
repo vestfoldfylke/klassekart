@@ -1101,17 +1101,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    [horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput].forEach(input => {
-        input.addEventListener('input', () => {
-            if (showHorseshoeCheckbox.checked) {
-                renderHorseshoeLayout();
+
+    // Helper to show warning if too many seats are distributed
+    function showHorseshoeWarning(message) {
+        let warningDiv = document.getElementById('horseshoe-warning');
+        if (!warningDiv) {
+            warningDiv = document.createElement('div');
+            warningDiv.id = 'horseshoe-warning';
+            warningDiv.style.color = 'red';
+            warningDiv.style.fontWeight = 'bold';
+            horseshoeSettings.parentNode.insertBefore(warningDiv, horseshoeSettings.nextSibling);
+        }
+        warningDiv.textContent = message;
+    }
+    function hideHorseshoeWarning() {
+        const warningDiv = document.getElementById('horseshoe-warning');
+        if (warningDiv) warningDiv.textContent = '';
+    }
+
+    function validateHorseshoeInputs() {
+        const names = studentTextarea.value.trim().split('\n').map(name => name.trim()).filter(name => name);
+        const total = names.length;
+        let left = parseInt(horseshoeLeftInput.value) || 0;
+        let bottom = parseInt(horseshoeBottomInput.value) || 0;
+        let right = parseInt(horseshoeRightInput.value) || 0;
+        let sum = left + bottom + right;
+        if (sum > total) {
+            // Auto-correct the last changed input
+            const over = sum - total;
+            // Find which input triggered
+            let active = document.activeElement;
+            if ([horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput].includes(active)) {
+                let val = parseInt(active.value) || 0;
+                active.value = Math.max(0, val - over);
+            } else {
+                // fallback: reduce right
+                horseshoeRightInput.value = Math.max(0, right - over);
             }
-        });
-    });
+            showHorseshoeWarning('Du kan ikke fordele flere plasser enn det er elever.');
+        } else {
+            hideHorseshoeWarning();
+        }
+    }
 
     [horseshoeLeftInput, horseshoeBottomInput, horseshoeRightInput, studentTextarea].forEach(input => {
         input.addEventListener('input', () => {
             if (showHorseshoeCheckbox.checked) {
+                validateHorseshoeInputs();
                 renderHorseshoeLayout();
             }
         });
